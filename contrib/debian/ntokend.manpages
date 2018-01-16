@@ -1,0 +1,3 @@
+debian/manpages/ntokend.1
+debian/manpages/ntoken.conf.5
+debian/manpages/ntoken-cli.1

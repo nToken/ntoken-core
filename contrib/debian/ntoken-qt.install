@@ -1,0 +1,6 @@
+usr/local/bin/ntoken-qt usr/bin
+share/pixmaps/ntoken32.xpm usr/share/pixmaps
+share/pixmaps/ntoken16.xpm usr/share/pixmaps
+share/pixmaps/ntoken128.png usr/share/pixmaps
+debian/ntoken-qt.desktop usr/share/applications
+debian/ntoken-qt.protocol usr/share/kde4/services/

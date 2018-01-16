@@ -1,0 +1,11 @@
+[Protocol]
+exec=ntoken-qt '%u'
+protocol=ntoken
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

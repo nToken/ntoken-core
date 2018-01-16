@@ -1,0 +1,22 @@
+[Unit]
+Description=NToken's distributed currency daemon
+After=network.target
+
+[Service]
+User=ntokencore
+Group=ntokencore
+
+Type=forking
+PIDFile=/var/lib/ntokend/ntokend.pid
+ExecStart=/usr/bin/ntokend -daemon -pid=/var/lib/ntokend/ntokend.pid \
+-conf=/etc/ntokencore/ntoken.conf -datadir=/var/lib/ntokend -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

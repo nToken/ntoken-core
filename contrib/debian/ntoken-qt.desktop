@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=NToken
+Comment=NToken P2P Cryptocurrency
+Comment[fr]=NToken, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=NToken, eşten eşe kriptografik sanal para birimi
+Exec=ntoken-qt %u
+Terminal=false
+Type=Application
+Icon=ntoken128
+MimeType=x-scheme-handler/ntoken;
+Categories=Office;Finance;

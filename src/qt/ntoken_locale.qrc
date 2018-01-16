@@ -1,0 +1,20 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="bg">locale/ntoken_bg.qm</file>
+        <file alias="de">locale/ntoken_de.qm</file>
+        <file alias="en">locale/ntoken_en.qm</file>
+        <file alias="es">locale/ntoken_es.qm</file>
+        <file alias="fi">locale/ntoken_fi.qm</file>
+        <file alias="fr">locale/ntoken_fr.qm</file>
+        <file alias="it">locale/ntoken_it.qm</file>
+        <file alias="ja">locale/ntoken_ja.qm</file>
+        <file alias="pl">locale/ntoken_pl.qm</file>
+        <file alias="pt">locale/ntoken_pt.qm</file>
+        <file alias="ru">locale/ntoken_ru.qm</file>
+        <file alias="sk">locale/ntoken_sk.qm</file>
+        <file alias="sv">locale/ntoken_sv.qm</file>
+        <file alias="vi">locale/ntoken_vi.qm</file>
+        <file alias="zh_CN">locale/ntoken_zh_CN.qm</file>
+        <file alias="zh_TW">locale/ntoken_zh_TW.qm</file>
+    </qresource>
+</RCC>
