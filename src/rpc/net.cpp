@@ -202,8 +202,8 @@ UniValue addnode(const UniValue& params, bool fHelp)
             "1. \"node\"     (string, required) The node (see getpeerinfo for nodes)\n"
             "2. \"command\"  (string, required) 'add' to add a node to the list, 'remove' to remove a node from the list, 'onetry' to try a connection to the node once\n"
             "\nExamples:\n"
-            + HelpExampleCli("addnode", "\"192.168.0.6:9173\" \"onetry\"")
-            + HelpExampleRpc("addnode", "\"192.168.0.6:9173\", \"onetry\"")
+            + HelpExampleCli("addnode", "\"192.168.0.6:9172\" \"onetry\"")
+            + HelpExampleRpc("addnode", "\"192.168.0.6:9172\", \"onetry\"")
         );
 
     if(!g_connman)
@@ -241,8 +241,8 @@ UniValue disconnectnode(const UniValue& params, bool fHelp)
             "\nArguments:\n"
             "1. \"node\"     (string, required) The node (see getpeerinfo for nodes)\n"
             "\nExamples:\n"
-            + HelpExampleCli("disconnectnode", "\"192.168.0.6:9173\"")
-            + HelpExampleRpc("disconnectnode", "\"192.168.0.6:9173\"")
+            + HelpExampleCli("disconnectnode", "\"192.168.0.6:9172\"")
+            + HelpExampleRpc("disconnectnode", "\"192.168.0.6:9172\"")
         );
 
     if(!g_connman)
@@ -272,7 +272,7 @@ UniValue getaddednodeinfo(const UniValue& params, bool fHelp)
             "    \"connected\" : true|false,          (boolean) If connected\n"
             "    \"addresses\" : [                    (list of objects) Only when connected = true\n"
             "       {\n"
-            "         \"address\" : \"192.168.0.201:9173\",  (string) The ntoken server IP and port we're connected to\n"
+            "         \"address\" : \"192.168.0.201:9172\",  (string) The ntoken server IP and port we're connected to\n"
             "         \"connected\" : \"outbound\"           (string) connection, inbound or outbound\n"
             "       }\n"
             "     ]\n"

@@ -52,11 +52,11 @@ reachable from the Tor network. Add these lines to your /etc/tor/torrc (or equiv
 config file):
 
 	HiddenServiceDir /var/lib/tor/ntokencore-service/
-	HiddenServicePort 9173 127.0.0.1:9173
-	HiddenServicePort 19173 127.0.0.1:19173
+	HiddenServicePort 9172 127.0.0.1:9172
+	HiddenServicePort 19172 127.0.0.1:19172
 
 The directory can be different of course, but (both) port numbers should be equal to
-your ntokend's P2P listen port (9173 by default).
+your ntokend's P2P listen port (9172 by default).
 
 	-externalip=X   You can tell NToken Core about its publicly reachable address using
 	                this option, and this can be a .onion address. Given the above
@@ -91,7 +91,7 @@ as well, use `discover` instead:
 
 	./ntokend ... -discover
 
-and open port 9173 on your firewall (or use -upnp).
+and open port 9172 on your firewall (or use -upnp).
 
 If you only want to use Tor to reach onion addresses, but not use it as a proxy
 for normal IPv4/IPv6 communication, use:

@@ -81,8 +81,8 @@ BOOST_AUTO_TEST_CASE(caddrdb_read)
 
     CService addr1, addr2, addr3;
     Lookup("250.7.1.1", addr1, 8173, false);
-    Lookup("250.7.2.2", addr2, 9173, false);
-    Lookup("250.7.3.3", addr3, 9173, false);
+    Lookup("250.7.2.2", addr2, 9172, false);
+    Lookup("250.7.3.3", addr3, 9172, false);
 
     // Add three addresses to new table.
     CService source;
