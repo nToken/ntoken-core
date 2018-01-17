@@ -149,12 +149,12 @@ public:
         vSeeds.push_back(CDNSSeedData("s3", "seeder3.ntoken.org"));
         vSeeds.push_back(CDNSSeedData("s4", "seeder4.ntoken.org"));
 
-        // NToken addresses start with 'X'
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,76);
+        // NToken addresses start with 'n'
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,112);
         // NToken script addresses start with '7'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,16);
-        // NToken private keys start with '7' or 'X'
-        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,204);
+        // NToken private keys start with 'P'
+        base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,55);
         // NToken BIP32 pubkeys start with 'xpub' (Bitcoin defaults)
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x88)(0xB2)(0x1E).convert_to_container<std::vector<unsigned char> >();
         // NToken BIP32 prvkeys start with 'xprv' (Bitcoin defaults)
