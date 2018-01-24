@@ -143,14 +143,14 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0x000009ab06fc03bd02df6eb98e1cccd72e8c942a968d8b39a1a62d16c240bd58"));
         assert(genesis.hashMerkleRoot == uint256S("0xaf1c109f515fd744d44481a15d2cd10ddf9a4dee11cde4a0c80241333f2c57ab"));
 
+        vSeeds.clear();
+        //vSeeds.push_back(CDNSSeedData("s1", "seeder1.ntoken.net"));
+        //vSeeds.push_back(CDNSSeedData("s2", "seeder2.ntoken.net"));
+        //vSeeds.push_back(CDNSSeedData("s3", "seeder3.ntoken.net"));
+        //vSeeds.push_back(CDNSSeedData("s4", "seeder4.ntoken.net"));
 
-        vSeeds.push_back(CDNSSeedData("s1", "seeder1.ntoken.net"));
-        vSeeds.push_back(CDNSSeedData("s2", "seeder2.ntoken.net"));
-        vSeeds.push_back(CDNSSeedData("s3", "seeder3.ntoken.net"));
-        vSeeds.push_back(CDNSSeedData("s4", "seeder4.ntoken.net"));
-
-        // NToken addresses start with 'n'
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,112);
+        // NToken addresses start with 'N'
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,53);
         // NToken script addresses start with '7'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,16);
         // NToken private keys start with 'P'
