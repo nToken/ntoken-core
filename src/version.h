@@ -11,38 +11,38 @@
  * network protocol versioning
  */
 
-static const int PROTOCOL_VERSION = 70208;
+static const int PROTOCOL_VERSION = 1208;
 
 //! initial proto version, to be increased after version/verack negotiation
 static const int INIT_PROTO_VERSION = 209;
 
 //! In this version, 'getheaders' was introduced.
-static const int GETHEADERS_VERSION = 70077;
+static const int GETHEADERS_VERSION = 1077;
 
 //! disconnect from peers older than this proto version
-static const int MIN_PEER_PROTO_VERSION = 70208;
+static const int MIN_PEER_PROTO_VERSION = 1208;
 
 //! nTime field added to CAddress, starting with this version;
 //! if possible, avoid requesting addresses nodes older than this
-static const int CADDR_TIME_VERSION = 31402;
+static const int CADDR_TIME_VERSION = 402;
 
 //! only request blocks from nodes outside this range of versions
-static const int NOBLKS_VERSION_START = 32000;
-static const int NOBLKS_VERSION_END = 32400;
+static const int NOBLKS_VERSION_START = 500;
+static const int NOBLKS_VERSION_END = 540;
 
 //! BIP 0031, pong message, is enabled for all versions AFTER this one
-static const int BIP0031_VERSION = 60000;
+static const int BIP0031_VERSION = 600;
 
 //! "mempool" command, enhanced "getdata" behavior starts with this version
-static const int MEMPOOL_GD_VERSION = 60002;
+static const int MEMPOOL_GD_VERSION = 602;
 
 //! "filter*" commands are disabled without NODE_BLOOM after and including this version
-static const int NO_BLOOM_VERSION = 70201;
+static const int NO_BLOOM_VERSION = 1201;
 
 //! "sendheaders" command and announcing blocks with headers starts with this version
-static const int SENDHEADERS_VERSION = 70201;
+static const int SENDHEADERS_VERSION = 1201;
 
 //! DIP0001 was activated in this version
-static const int DIP0001_PROTOCOL_VERSION = 70208;
+static const int DIP0001_PROTOCOL_VERSION = 1208;
 
 #endif // BITCOIN_VERSION_H

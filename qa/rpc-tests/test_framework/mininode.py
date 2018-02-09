@@ -34,8 +34,8 @@ import copy
 
 import ntoken_hash
 
-BIP0031_VERSION = 60000
-MY_VERSION = 70208  # current MIN_PEER_PROTO_VERSION
+BIP0031_VERSION = 600
+MY_VERSION = 1208  # current MIN_PEER_PROTO_VERSION
 MY_SUBVERSION = b"/python-mininode-tester:0.0.2/"
 
 MAX_INV_SZ = 50000
