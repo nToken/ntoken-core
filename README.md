@@ -3,7 +3,7 @@ NToken Core staging tree 1.12.2
 
 `master:` [![Build Status](https://travis-ci.org/ntoken/ntoken.svg?branch=master)](https://travis-ci.org/ntoken/ntoken-core) `develop:` [![Build Status](https://travis-ci.org/ntoken/ntoken.svg?branch=develop)](https://travis-ci.org/ntoken/ntoken/branches)
 
-https://www.ntoken.org
+https://www.ntoken.net
 
 
 What is NToken?
@@ -16,7 +16,7 @@ are carried out collectively by the network. NToken Core is the name of the open
 source software which enables the use of this currency.
 
 For more information, as well as an immediately useable, binary version of
-the NToken Core software, see https://www.ntoken.org/get-ntoken/.
+the NToken Core software, see https://www.ntoken.net/.
 
 
 License
