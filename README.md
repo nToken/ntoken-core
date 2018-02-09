@@ -1,4 +1,4 @@
-NToken Core staging tree 1.12.2
+NToken Core staging tree 1.0.9
 ===============================
 
 `master:` [![Build Status](https://travis-ci.org/ntoken/ntoken.svg?branch=master)](https://travis-ci.org/ntoken/ntoken-core) `develop:` [![Build Status](https://travis-ci.org/ntoken/ntoken.svg?branch=develop)](https://travis-ci.org/ntoken/ntoken/branches)
