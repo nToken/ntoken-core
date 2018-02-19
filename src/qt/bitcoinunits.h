@@ -61,7 +61,7 @@ public:
         NTK,
         mNTK,
         uNTK,
-        duffs
+        ticks
     };
 
     enum SeparatorStyle

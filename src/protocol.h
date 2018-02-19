@@ -146,7 +146,7 @@ extern const char *GETADDR;
 /**
  * The mempool message requests the TXIDs of transactions that the receiving
  * node has verified as valid but which have not yet appeared in a block.
- * @since protocol version 60002.
+ * @since protocol version 302.
  * @see https://bitcoin.org/en/developer-reference#mempool
  */
 extern const char *MEMPOOL;
@@ -263,7 +263,7 @@ enum ServiceFlags : uint64_t {
     NODE_GETUTXO = (1 << 1),
     // NODE_BLOOM means the node is capable and willing to handle bloom-filtered connections.
     // NToken Core nodes used to support this by default, without advertising this bit,
-    // but no longer do as of protocol version 70201 (= NO_BLOOM_VERSION)
+    // but no longer do as of protocol version 1201 (= NO_BLOOM_VERSION)
     NODE_BLOOM = (1 << 2),
 
     // Bits 24-31 are reserved for temporary experiments. Just pick a bit that
@@ -351,11 +351,7 @@ enum {
     MSG_TXLOCK_VOTE,
     MSG_SPORK,
     MSG_MASTERNODE_PAYMENT_VOTE,
-    MSG_MASTERNODE_PAYMENT_BLOCK, // reusing, was MSG_MASTERNODE_SCANNING_ERROR previousely, was NOT used in 12.0
-    MSG_BUDGET_VOTE, // depreciated since 12.1
-    MSG_BUDGET_PROPOSAL, // depreciated since 12.1
-    MSG_BUDGET_FINALIZED, // depreciated since 12.1
-    MSG_BUDGET_FINALIZED_VOTE, // depreciated since 12.1
+    MSG_MASTERNODE_PAYMENT_BLOCK, // reusing, was MSG_MASTERNODE_SCANNING_ERROR previousely, was NOT used in 1.0
     MSG_MASTERNODE_QUORUM, // not implemented
     MSG_MASTERNODE_ANNOUNCE,
     MSG_MASTERNODE_PING,

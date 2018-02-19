@@ -23,7 +23,7 @@ QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
     unitlist.append(NTK);
     unitlist.append(mNTK);
     unitlist.append(uNTK);
-    unitlist.append(duffs);
+    unitlist.append(ticks);
     return unitlist;
 }
 
@@ -34,7 +34,7 @@ bool BitcoinUnits::valid(int unit)
     case NTK:
     case mNTK:
     case uNTK:
-    case duffs:
+    case ticks:
         return true;
     default:
         return false;
@@ -50,7 +50,7 @@ QString BitcoinUnits::name(int unit)
             case NTK: return QString("NTK");
             case mNTK: return QString("mNTK");
             case uNTK: return QString::fromUtf8("μNTK");
-            case duffs: return QString("duffs");
+            case ticks: return QString("ticks");
             default: return QString("???");
         }
     }
@@ -61,7 +61,7 @@ QString BitcoinUnits::name(int unit)
             case NTK: return QString("tNTK");
             case mNTK: return QString("mtNTK");
             case uNTK: return QString::fromUtf8("μtNTK");
-            case duffs: return QString("tduffs");
+            case ticks: return QString("tticks");
             default: return QString("???");
         }
     }
@@ -76,7 +76,7 @@ QString BitcoinUnits::description(int unit)
             case NTK: return QString("NToken");
             case mNTK: return QString("Milli-NToken (1 / 1" THIN_SP_UTF8 "000)");
             case uNTK: return QString("Micro-NToken (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case duffs: return QString("Ten Nano-NToken (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case ticks: return QString("Ten Nano-NToken (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -87,7 +87,7 @@ QString BitcoinUnits::description(int unit)
             case NTK: return QString("TestNTokens");
             case mNTK: return QString("Milli-TestNToken (1 / 1" THIN_SP_UTF8 "000)");
             case uNTK: return QString("Micro-TestNToken (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case duffs: return QString("Ten Nano-TestNToken (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case ticks: return QString("Ten Nano-TestNToken (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -100,7 +100,7 @@ qint64 BitcoinUnits::factor(int unit)
     case NTK:  return 100000000;
     case mNTK: return 100000;
     case uNTK: return 100;
-    case duffs: return 1;
+    case ticks: return 1;
     default:   return 100000000;
     }
 }
@@ -112,7 +112,7 @@ int BitcoinUnits::decimals(int unit)
     case NTK: return 8;
     case mNTK: return 5;
     case uNTK: return 2;
-    case duffs: return 0;
+    case ticks: return 0;
     default: return 0;
     }
 }

@@ -300,8 +300,8 @@ UniValue validateaddress(const UniValue& params, bool fHelp)
             "  \"hdchainid\" : \"<hash>\"        (string, optional) The ID of the HD chain\n"
             "}\n"
             "\nExamples:\n"
-            + HelpExampleCli("validateaddress", "\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"")
-            + HelpExampleRpc("validateaddress", "\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"")
+            + HelpExampleCli("validateaddress", "\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"")
+            + HelpExampleRpc("validateaddress", "\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"")
         );
 
 #ifdef ENABLE_WALLET
@@ -467,11 +467,11 @@ UniValue verifymessage(const UniValue& params, bool fHelp)
             "\nUnlock the wallet for 30 seconds\n"
             + HelpExampleCli("walletpassphrase", "\"mypassphrase\" 30") +
             "\nCreate the signature\n"
-            + HelpExampleCli("signmessage", "\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\" \"my message\"") +
+            + HelpExampleCli("signmessage", "\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\" \"my message\"") +
             "\nVerify the signature\n"
-            + HelpExampleCli("verifymessage", "\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\" \"signature\" \"my message\"") +
+            + HelpExampleCli("verifymessage", "\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\" \"signature\" \"my message\"") +
             "\nAs json rpc\n"
-            + HelpExampleRpc("verifymessage", "\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\", \"signature\", \"my message\"")
+            + HelpExampleRpc("verifymessage", "\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\", \"signature\", \"my message\"")
         );
 
     LOCK(cs_main);
@@ -610,15 +610,15 @@ UniValue getaddressmempool(const UniValue& params, bool fHelp)
             "    \"address\"  (string) The base58check encoded address\n"
             "    \"txid\"  (string) The related txid\n"
             "    \"index\"  (number) The related input or output index\n"
-            "    \"satoshis\"  (number) The difference of duffs\n"
+            "    \"satoshis\"  (number) The difference of ticks\n"
             "    \"timestamp\"  (number) The time the transaction entered the mempool (seconds)\n"
             "    \"prevtxid\"  (string) The previous txid (if spending)\n"
             "    \"prevout\"  (string) The previous transaction output index (if spending)\n"
             "  }\n"
             "]\n"
             "\nExamples:\n"
-            + HelpExampleCli("getaddressmempool", "'{\"addresses\": [\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"]}'")
-            + HelpExampleRpc("getaddressmempool", "{\"addresses\": [\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"]}")
+            + HelpExampleCli("getaddressmempool", "'{\"addresses\": [\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"]}'")
+            + HelpExampleRpc("getaddressmempool", "{\"addresses\": [\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"]}")
         );
 
     std::vector<std::pair<uint160, int> > addresses;
@@ -682,13 +682,13 @@ UniValue getaddressutxos(const UniValue& params, bool fHelp)
             "    \"txid\"  (string) The output txid\n"
             "    \"outputIndex\"  (number) The output index\n"
             "    \"script\"  (string) The script hex encoded\n"
-            "    \"satoshis\"  (number) The number of duffs of the output\n"
+            "    \"satoshis\"  (number) The number of ticks of the output\n"
             "    \"height\"  (number) The block height\n"
             "  }\n"
             "]\n"
             "\nExamples:\n"
-            + HelpExampleCli("getaddressutxos", "'{\"addresses\": [\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"]}'")
-            + HelpExampleRpc("getaddressutxos", "{\"addresses\": [\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"]}")
+            + HelpExampleCli("getaddressutxos", "'{\"addresses\": [\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"]}'")
+            + HelpExampleRpc("getaddressutxos", "{\"addresses\": [\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"]}")
         );
 
     std::vector<std::pair<uint160, int> > addresses;
@@ -747,7 +747,7 @@ UniValue getaddressdeltas(const UniValue& params, bool fHelp)
             "\nResult:\n"
             "[\n"
             "  {\n"
-            "    \"satoshis\"  (number) The difference of duffs\n"
+            "    \"satoshis\"  (number) The difference of ticks\n"
             "    \"txid\"  (string) The related txid\n"
             "    \"index\"  (number) The related input or output index\n"
             "    \"blockindex\"  (number) The related block index\n"
@@ -756,8 +756,8 @@ UniValue getaddressdeltas(const UniValue& params, bool fHelp)
             "  }\n"
             "]\n"
             "\nExamples:\n"
-            + HelpExampleCli("getaddressdeltas", "'{\"addresses\": [\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"]}'")
-            + HelpExampleRpc("getaddressdeltas", "{\"addresses\": [\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"]}")
+            + HelpExampleCli("getaddressdeltas", "'{\"addresses\": [\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"]}'")
+            + HelpExampleRpc("getaddressdeltas", "{\"addresses\": [\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"]}")
         );
 
 
@@ -832,12 +832,12 @@ UniValue getaddressbalance(const UniValue& params, bool fHelp)
             "}\n"
             "\nResult:\n"
             "{\n"
-            "  \"balance\"  (string) The current balance in duffs\n"
-            "  \"received\"  (string) The total number of duffs received (including change)\n"
+            "  \"balance\"  (string) The current balance in ticks\n"
+            "  \"received\"  (string) The total number of ticks received (including change)\n"
             "}\n"
             "\nExamples:\n"
-            + HelpExampleCli("getaddressbalance", "'{\"addresses\": [\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"]}'")
-            + HelpExampleRpc("getaddressbalance", "{\"addresses\": [\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"]}")
+            + HelpExampleCli("getaddressbalance", "'{\"addresses\": [\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"]}'")
+            + HelpExampleRpc("getaddressbalance", "{\"addresses\": [\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"]}")
         );
 
     std::vector<std::pair<uint160, int> > addresses;
@@ -894,8 +894,8 @@ UniValue getaddresstxids(const UniValue& params, bool fHelp)
             "  ,...\n"
             "]\n"
             "\nExamples:\n"
-            + HelpExampleCli("getaddresstxids", "'{\"addresses\": [\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"]}'")
-            + HelpExampleRpc("getaddresstxids", "{\"addresses\": [\"XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg\"]}")
+            + HelpExampleCli("getaddresstxids", "'{\"addresses\": [\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"]}'")
+            + HelpExampleRpc("getaddresstxids", "{\"addresses\": [\"NKe1uogzcrYTNCgVM7xn4B3HJFZDsVJ4Td\"]}")
         );
 
     std::vector<std::pair<uint160, int> > addresses;
