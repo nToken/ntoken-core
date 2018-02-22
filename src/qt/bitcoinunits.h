@@ -58,9 +58,9 @@ public:
      */
     enum Unit
     {
-        NTK,
-        mNTK,
-        uNTK,
+        NTE,
+        mNTE,
+        uNTE,
         ticks
     };
 

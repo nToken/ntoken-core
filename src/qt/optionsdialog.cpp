@@ -92,9 +92,9 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     }
     
     /* Theme selector */
-    ui->theme->addItem(QString("NTK-light"), QVariant("light"));
-    ui->theme->addItem(QString("NTK-blue"), QVariant("drkblue"));
-    ui->theme->addItem(QString("NTK-traditional"), QVariant("trad"));
+    ui->theme->addItem(QString("NTE-light"), QVariant("light"));
+    ui->theme->addItem(QString("NTE-blue"), QVariant("drkblue"));
+    ui->theme->addItem(QString("NTE-traditional"), QVariant("trad"));
     
     /* Language selector */
     QDir translations(":translations");

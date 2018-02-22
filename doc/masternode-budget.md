@@ -19,7 +19,7 @@ Budgets go through a series of stages before being paid:
 1. Prepare collateral transaction
 --
 
-In this transaction we prepare collateral for "_cool-project_". This proposal will pay _1200_ NTK, _12_ times over the course of a year totaling _24000_ NTK.
+In this transaction we prepare collateral for "_cool-project_". This proposal will pay _1200_ NTE, _12_ times over the course of a year totaling _24000_ NTE.
 
 **Warning: if you change any fields within this command, the collateral transaction will become invalid.**
 
@@ -128,7 +128,7 @@ After you get enough votes, execute ```mngovernance projection``` to see if you 
 6. Get paid
 --
 
-When block ```1000000``` is reached you'll receive a payment for ```1200``` NTK to ```y6R9oN12KnB9zydzTLc3LikD9cCjjQzYG7```.
+When block ```1000000``` is reached you'll receive a payment for ```1200``` NTE to ```y6R9oN12KnB9zydzTLc3LikD9cCjjQzYG7```.
 
 7. Command list
 --

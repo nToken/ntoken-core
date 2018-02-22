@@ -21,8 +21,8 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef NTK_BIP39_H
-#define NTK_BIP39_H
+#ifndef NTE_BIP39_H
+#define NTE_BIP39_H
 
 #include "support/allocators/secure.h"
 

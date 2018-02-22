@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 The Dash Core developers
 // Copyright (c) 2017-2018 The nToken developers
 // Distributed under the MIT software license, see the accompanying
-#ifndef NTK_HDCHAIN_H
-#define NTK_HDCHAIN_H
+#ifndef NTE_HDCHAIN_H
+#define NTE_HDCHAIN_H
 
 #include "key.h"
 #include "sync.h"
@@ -150,4 +150,4 @@ public:
     std::string GetKeyPath() const;
 };
 
-#endif // NTK_HDCHAIN_H
+#endif // NTE_HDCHAIN_H

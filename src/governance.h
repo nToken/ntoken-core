@@ -6,7 +6,7 @@
 #ifndef GOVERNANCE_H
 #define GOVERNANCE_H
 
-//#define ENABLE_NTK_DEBUG
+//#define ENABLE_NTE_DEBUG
 
 #include "bloom.h"
 #include "cachemap.h"
