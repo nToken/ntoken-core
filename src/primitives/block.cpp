@@ -10,9 +10,17 @@
 #include "utilstrencodings.h"
 #include "crypto/common.h"
 
+#include "crypto/Lyra2Z.h"
+#include "crypto/Lyra2.h"
+
+
 uint256 CBlockHeader::GetHash() const
 {
-    return HashX11(BEGIN(nVersion), END(nNonce));
+    uint256 thash;
+
+    lyra2z_hash(BEGIN(nVersion), BEGIN(thash));
+
+    return thash;
 }
 
 std::string CBlock::ToString() const
