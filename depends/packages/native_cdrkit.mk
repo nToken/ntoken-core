@@ -10,15 +10,15 @@ define $(package)_preprocess_cmds
 endef
 
 define $(package)_config_cmds
-  cmake -GNinja -DCMAKE_INSTALL_PREFIX=$(build_prefix)
+  cmake -DCMAKE_INSTALL_PREFIX=$(build_prefix)
 endef
 
 define $(package)_build_cmds
-  ninja genisoimage
+  $(MAKE) genisoimage
 endef
 
 define $(package)_stage_cmds
-  DESTDIR=$($(package)_staging_dir) ninja genisoimage/install
+  $(MAKE) DESTDIR=$($(package)_staging_dir) -C genisoimage install
 endef
 
 define $(package)_postprocess_cmds
