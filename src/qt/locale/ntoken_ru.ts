@@ -4074,7 +4074,7 @@ https://www.transifex.com/projects/p/ntoken/</translation>
     </message>
     <message>
         <source>Unable to locate enough funds for this transaction that are not equal 1000 NTE.</source>
-        <translation>Не удалось обнаружить достаточных для выполнения этой транзакции средств, отличающихся от 1000DRK.</translation>
+        <translation>Не удалось обнаружить достаточных для выполнения этой транзакции средств, отличающихся от 1000NTE.</translation>
     </message>
     <message>
         <source>Use hierarchical deterministic key generation (HD) after bip39/bip44. Only has effect during wallet creation/first start</source>
