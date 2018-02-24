@@ -133,8 +133,9 @@ public:
 
         genesis = CreateGenesisBlock(1517884800, 2082236, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x00"));
-        assert(genesis.hashMerkleRoot == uint256S("0xfc02aa551a32ccf0797e0311b96e086521b4813899a1aeffad3bdb2220437571"));
+	//printf("Main genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str());
+        assert(consensus.hashGenesisBlock == uint256S("0x02e756e7765cced4fcdeaaeeb16b72ee41344d9db767e6b59a107c3defdda99f"));
+        assert(genesis.hashMerkleRoot == uint256S("0x4d86bac27a5b4f899a97051f77cbbc5f9a834d0c929dad26ea91eed8d37d2899"));
 
         vSeeds.push_back(CDNSSeedData("s1", "seeder1.ntoken.net"));
         vSeeds.push_back(CDNSSeedData("s2", "seeder2.ntoken.net"));
@@ -246,8 +247,8 @@ public:
 
         genesis = CreateGenesisBlock(1517884801, 1066230, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x00"));
-        assert(genesis.hashMerkleRoot == uint256S("0xfc02aa551a32ccf0797e0311b96e086521b4813899a1aeffad3bdb2220437571"));
+        assert(consensus.hashGenesisBlock == uint256S("0xf66302d59a2346569429529ecbdb5f472eb7a354ee110bbee4da97eadf61b785"));
+        assert(genesis.hashMerkleRoot == uint256S("0x4d86bac27a5b4f899a97051f77cbbc5f9a834d0c929dad26ea91eed8d37d2899"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -354,8 +355,8 @@ public:
 
         genesis = CreateGenesisBlock(1517884812, 2019512, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x00"));
-        assert(genesis.hashMerkleRoot == uint256S("0xfc02aa551a32ccf0797e0311b96e086521b4813899a1aeffad3bdb2220437571"));
+        assert(consensus.hashGenesisBlock == uint256S("0x83fdd5c25f9ddb456169b6101f4126179144b626c1fe442ea1f7c8f682e1aab4"));
+        assert(genesis.hashMerkleRoot == uint256S("0x4d86bac27a5b4f899a97051f77cbbc5f9a834d0c929dad26ea91eed8d37d2899"));
 
         vFixedSeeds.clear(); //! Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();  //! Regtest mode doesn't have any DNS seeds.
