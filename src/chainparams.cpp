@@ -85,7 +85,7 @@ public:
         consensus.nMajorityRejectBlockOutdated = 950;
         consensus.nMajorityWindow = 1000;
         consensus.BIP34Height = 0;
-        consensus.BIP34Hash = uint256S("0x9dfec853e3d89dd4bb43d3be10e59e2929a1f5cc30b2bb21409052fe7728a8fa");
+        consensus.BIP34Hash = uint256S("0x00");
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 24 * 60 * 60; // NToken: 1 day
         consensus.nPowTargetSpacing = 120; // NToken: 2.0 minutes
@@ -133,7 +133,7 @@ public:
 
         genesis = CreateGenesisBlock(1517884800, 2082236, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x9dfec853e3d89dd4bb43d3be10e59e2929a1f5cc30b2bb21409052fe7728a8fa"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00"));
         assert(genesis.hashMerkleRoot == uint256S("0xfc02aa551a32ccf0797e0311b96e086521b4813899a1aeffad3bdb2220437571"));
 
         vSeeds.push_back(CDNSSeedData("s1", "seeder1.ntoken.net"));
@@ -246,7 +246,7 @@ public:
 
         genesis = CreateGenesisBlock(1517884801, 1066230, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x190721494090233b65896cb796947f0a184284629e7b751f0285d70435ab7dd2"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00"));
         assert(genesis.hashMerkleRoot == uint256S("0xfc02aa551a32ccf0797e0311b96e086521b4813899a1aeffad3bdb2220437571"));
 
         vFixedSeeds.clear();
@@ -354,7 +354,7 @@ public:
 
         genesis = CreateGenesisBlock(1517884812, 2019512, 0x1e0ffff0, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0f6bf621d625461192e71ee78ce6cd377601e42c370700b5940841bf32da91ad"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00"));
         assert(genesis.hashMerkleRoot == uint256S("0xfc02aa551a32ccf0797e0311b96e086521b4813899a1aeffad3bdb2220437571"));
 
         vFixedSeeds.clear(); //! Regtest mode doesn't have any fixed seeds.
