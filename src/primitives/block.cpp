@@ -9,12 +9,9 @@
 #include <tinyformat.h>
 #include <utilstrencodings.h>
 #include <crypto/common.h>
-
-#include <btv_const.h>
 #include <crypto/cryptonight.h>
 
 #include <sync.h>
-#include <fs.h>
 #include <util.h>
 #include <fstream>
 #include <map>
@@ -128,7 +125,7 @@ void writeHash(const uint256 &hashSha256, const uint256 &hashCn)
         int count = out.tellp() / 64;
         out.seekp(count * 64, std::ios::beg);
         hashSha256.Serialize(out);
-        hashCn.Serialize(out);
+        hash.Serialize(out);
     }
     catch (...) { }
 
@@ -147,21 +144,15 @@ void addTempMap(uint256 sha256, uint256 cnhash)
 uint256 CBlockHeader::GetHash() const
 {
     uint256 ret = SerializeHash(*this);
-    if (!IsBtvBranched()) // before branch
-    {
-        return ret;
-    }
-    else
-    {
-        uint256 result;
-        if (getHash(ret, result))
-		{
-			return result;
-		}
+    uint256 result;
+    if (getHash(ret, result))
+	{
+		return result;
+	}
 
-        char data[32];
-        memset(data, 0, 32);
-        cryptonight_hash(data, (const void*)this, 80);
+    char data[32];
+    memset(data, 0, 32);
+    cryptonight_hash(data, (const void*)this, 80);
 
         std::vector<unsigned char> vch;
         for (int i = 0; i < 32; ++i)
@@ -169,10 +160,9 @@ uint256 CBlockHeader::GetHash() const
             vch.push_back((unsigned char) data[i]);
         }
 
-		uint256 hashCn(vch);
-		addTempMap(GetHashSha256(), hashCn);
-		return hashCn;
-    }
+	uint256 hash(vch);
+	addTempMap(GetHashSha256(), hash);
+	return hashCn;
 }
 
 uint256 CBlockHeader::GetHashSha256() const
