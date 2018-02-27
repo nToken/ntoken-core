@@ -1246,7 +1246,7 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
         nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
         if(nSubsidyBase > 500) nSubsidyBase = 500;
         else if(nSubsidyBase < 1) nSubsidyBase = 1;
-    } else if (nPrevHeight < 16000 || (dDiff <= 75 && nPrevHeight < 20000)) {
+    } else if (nPrevHeight < 12000 || (dDiff <= 75 && nPrevHeight < 16000)) {
         // CPU mining era
         // 11111/(((x+51)/6)^2)
         nSubsidyBase = (11111.0 / (pow((dDiff+51.0)/6.0,2.0)));
