@@ -35,10 +35,10 @@ def check_json_precision():
 def determine_db_dir():
     """Return the default location of the NToken Core data directory"""
     if platform.system() == "Darwin":
-        return os.path.expanduser("~/Library/Application Support/NTokenCore/")
+        return os.path.expanduser("~/Library/Application Support/NToken/")
     elif platform.system() == "Windows":
-        return os.path.join(os.environ['APPDATA'], "NTokenCore")
-    return os.path.expanduser("~/.ntokencore")
+        return os.path.join(os.environ['APPDATA'], "NToken")
+    return os.path.expanduser("~/.ntoken")
 
 def read_bitcoin_config(dbdir):
     """Read the ntoken.conf file from dbdir, returns dictionary of settings"""
