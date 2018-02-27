@@ -71,7 +71,7 @@
         <string>application/x-ntoken-payment-request</string>
         <key>public.filename-extension</key>
         <array>
-          <string>ntokenmentrequest</string>
+          <string>ntokenpaymentrequest</string>
         </array>
       </dict>
     </dict>

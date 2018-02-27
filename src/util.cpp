@@ -517,13 +517,13 @@ void PrintExceptionContinue(const std::exception* pex, const char* pszThread)
 boost::filesystem::path GetDefaultDataDir()
 {
     namespace fs = boost::filesystem;
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\NTokenCore
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\NTokenCore
-    // Mac: ~/Library/Application Support/NTokenCore
-    // Unix: ~/.ntokencore
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\NToken
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\NToken
+    // Mac: ~/Library/Application Support/NToken
+    // Unix: ~/.ntoken
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "NTokenCore";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "NToken";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -533,10 +533,10 @@ boost::filesystem::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/NTokenCore";
+    return pathRet / "Library/Application Support/NToken";
 #else
     // Unix
-    return pathRet / ".ntokencore";
+    return pathRet / ".ntoken";
 #endif
 #endif
 }

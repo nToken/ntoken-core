@@ -48,11 +48,11 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile @abs_top_srcdir@/ntokencore-${VERSION}-win@WINDOWS_BITS@-setup.exe
+OutFile @abs_top_srcdir@/ntoken-${VERSION}-win@WINDOWS_BITS@-setup.exe
 !if "@WINDOWS_BITS@" == "64"
-InstallDir $PROGRAMFILES64\NTokenCore
+InstallDir $PROGRAMFILES64\NToken
 !else
-InstallDir $PROGRAMFILES\NTokenCore
+InstallDir $PROGRAMFILES\NToken
 !endif
 CRCCheck on
 XPStyle on
