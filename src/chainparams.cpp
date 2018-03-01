@@ -37,7 +37,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     genesis.hashPrevBlock.SetNull();
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
 
-    //printf("Genesis: nTime = %d , nBits = %d, nNonce = %d , nVersion = %d , Genesis = %s , MerkleRoot = %s \n", genesis.nTime, genesis.nBits, genesis.nNonce, genesis.nVersion, genesis.GetHash().ToString().c_str(), genesis.hashMerkleRoot.ToString().c_str());
+    printf("Genesis: nTime = %d , nBits = %d, nNonce = %d , nVersion = %d , Genesis = %s , MerkleRoot = %s \n", genesis.nTime, genesis.nBits, genesis.nNonce, genesis.nVersion, genesis.GetHash().ToString().c_str(), genesis.hashMerkleRoot.ToString().c_str());
     return genesis;
 }
 
@@ -69,7 +69,7 @@ class CMainParams : public CChainParams {
 public:
     CMainParams() {
         strNetworkID = "main";
-        consensus.nSubsidyHalvingInterval = 525600; // Note: number of blocks every two calendar years DGW v3)
+        consensus.nSubsidyHalvingInterval = 1051200; // Note: number of blocks every two calendar years)
         consensus.nMasternodePaymentsStartBlock = 15; // not true, but it's ok as long as it's less then nMasternodePaymentsIncreaseBlock
         consensus.nMasternodePaymentsIncreaseBlock = 158000; // actual historical value
         consensus.nMasternodePaymentsIncreasePeriod = 576*30; // 17280 - actual historical value
@@ -88,14 +88,13 @@ public:
         consensus.nMajorityWindow = 1000;
         consensus.BIP34Height = 0;
         consensus.BIP34Hash = uint256S("0xb51f472730b9becaf70058ff76382e6f4ac02e986359a2dc31fe196356b27809");
-        consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 24 * 60 * 60; // NToken: 1 day
-        consensus.nPowTargetSpacing = 120; // NToken: 2.0 minutes
+        consensus.nPowTargetSpacing = 60; // NToken: 1.0 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nPowDGWHeight = 10260;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2020
-        consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nMinerConfirmationWindow = 1440; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
@@ -133,11 +132,11 @@ public:
         nDelayGetHeadersTime = 24 * 60 * 60;
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1517884800, 2082236, 0x1e0ffff0, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1519886900, 2082236, 0x1e0ffff0, 2, 500 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
 	//printf("Main genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str());
-        assert(consensus.hashGenesisBlock == uint256S("0xb51f472730b9becaf70058ff76382e6f4ac02e986359a2dc31fe196356b27809"));
-        assert(genesis.hashMerkleRoot == uint256S("0x7e4c6fd49438a25ec58c52f08ff4272e3a419c8b2888d98424a2cecd5f033bf2"));
+        //assert(consensus.hashGenesisBlock == uint256S("0xb51f472730b9becaf70058ff76382e6f4ac02e986359a2dc31fe196356b27809"));
+        //assert(genesis.hashMerkleRoot == uint256S("0x7e4c6fd49438a25ec58c52f08ff4272e3a419c8b2888d98424a2cecd5f033bf2"));
 
         vSeeds.push_back(CDNSSeedData("s1", "seeder1.ntoken.net"));
         vSeeds.push_back(CDNSSeedData("s2", "seeder2.ntoken.net"));
@@ -188,7 +187,7 @@ class CTestNetParams : public CChainParams {
 public:
     CTestNetParams() {
         strNetworkID = "test";
-        consensus.nSubsidyHalvingInterval = 210240;
+        consensus.nSubsidyHalvingInterval = 1051200;
         consensus.nMasternodePaymentsStartBlock = 4010; // not true, but it's ok as long as it's less then nMasternodePaymentsIncreaseBlock
         consensus.nMasternodePaymentsIncreaseBlock = 4030;
         consensus.nMasternodePaymentsIncreasePeriod = 10;
@@ -207,14 +206,13 @@ public:
         consensus.nMajorityWindow = 100;
         consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256S("0x00");
-        consensus.powLimit = uint256S("00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 24 * 60 * 60; // NToken: 1 day
-        consensus.nPowTargetSpacing = 120; // NToken: 2.0 minutes
+        consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
+        consensus.nPowTargetTimespan = 24 * 60 * 60; // NToken: 1 days
+        consensus.nPowTargetSpacing = 60; // NToken: 1.0 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
-        consensus.nPowDGWHeight = 4001;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
-        consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nMinerConfirmationWindow = 1440; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
@@ -247,10 +245,10 @@ public:
         nDelayGetHeadersTime = 24 * 60 * 60;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1517884801, 1066230, 0x1e0ffff0, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1519887000, 1066230, 0x1e0ffff0, 2, 500 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x01b8dd4e10ae890f4ee027bc5a5a6d854b166f984920e36f0c3cfe1e448fff7d"));
-        assert(genesis.hashMerkleRoot == uint256S("0x7e4c6fd49438a25ec58c52f08ff4272e3a419c8b2888d98424a2cecd5f033bf2"));
+        //assert(consensus.hashGenesisBlock == uint256S("0x01b8dd4e10ae890f4ee027bc5a5a6d854b166f984920e36f0c3cfe1e448fff7d"));
+        //assert(genesis.hashMerkleRoot == uint256S("0x7e4c6fd49438a25ec58c52f08ff4272e3a419c8b2888d98424a2cecd5f033bf2"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -324,10 +322,9 @@ public:
         consensus.BIP34Hash = uint256();
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 24 * 60 * 60; // NToken: 1 day
-        consensus.nPowTargetSpacing = 120; // NToken: 2.0 minutes
+        consensus.nPowTargetSpacing = 60; // NToken: 2.0 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;
-        consensus.nPowDGWHeight = 10260; // same as mainnet
         consensus.nRuleChangeActivationThreshold = 108; // 75% for testchains
         consensus.nMinerConfirmationWindow = 144; // Faster than normal for regtest (144 instead of 2016)
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
@@ -355,10 +352,10 @@ public:
         nDefaultPort = 19272;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1517884812, 2019512, 0x1e0ffff0, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1519887200, 2019512, 0x1d00ffff, 1, 500 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x24f4cf00da5f5558d80178cf34f31dd3a27cb540076e1e16c9d942b9d022164b"));
-        assert(genesis.hashMerkleRoot == uint256S("0x7e4c6fd49438a25ec58c52f08ff4272e3a419c8b2888d98424a2cecd5f033bf2"));
+        //assert(consensus.hashGenesisBlock == uint256S("0x24f4cf00da5f5558d80178cf34f31dd3a27cb540076e1e16c9d942b9d022164b"));
+        //assert(genesis.hashMerkleRoot == uint256S("0x7e4c6fd49438a25ec58c52f08ff4272e3a419c8b2888d98424a2cecd5f033bf2"));
 
         vFixedSeeds.clear(); //! Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();  //! Regtest mode doesn't have any DNS seeds.

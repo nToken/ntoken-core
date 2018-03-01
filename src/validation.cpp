@@ -1240,30 +1240,30 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
         dDiff = ConvertBitsToDouble(nPrevBits);
     }
 
-    if (nPrevHeight < 5465) {
+    if (nPrevHeight < 4450) {
         // Early ages...
         // 1111/((x+1)^2)
         nSubsidyBase = (1111.0 / (pow((dDiff+1.0),2.0)));
-        if(nSubsidyBase > 500) nSubsidyBase = 500;
+        if(nSubsidyBase > 5000) nSubsidyBase = 5000;
         else if(nSubsidyBase < 1) nSubsidyBase = 1;
     } else if (nPrevHeight < 12000 || (dDiff <= 75 && nPrevHeight < 16000)) {
         // CPU mining era
         // 11111/(((x+51)/6)^2)
         nSubsidyBase = (11111.0 / (pow((dDiff+51.0)/6.0,2.0)));
-        if(nSubsidyBase > 500) nSubsidyBase = 500;
-        else if(nSubsidyBase < 25) nSubsidyBase = 25;
+        if(nSubsidyBase > 2500) nSubsidyBase = 2500;
+        else if(nSubsidyBase < 250) nSubsidyBase = 250;
     } else {
         // GPU/ASIC mining era
         // 2222222/(((x+2600)/9)^2)
         nSubsidyBase = (2222222.0 / (pow((dDiff+2600.0)/9.0,2.0)));
-        if(nSubsidyBase > 25) nSubsidyBase = 25;
-        else if(nSubsidyBase < 5) nSubsidyBase = 5;
+        if(nSubsidyBase > 250) nSubsidyBase = 250;
+        else if(nSubsidyBase < 50) nSubsidyBase = 50;
     }
 
     // LogPrintf("height %u diff %4.2f reward %d\n", nPrevHeight, dDiff, nSubsidyBase);
     CAmount nSubsidy = nSubsidyBase * COIN;
 
-    // yearly decline of production by ~7.1% per year, projected ~18M coins max by year 2050+.
+    // yearly decline of production by ~7.1% per year, projected ~11b coins max by year 2050+.
     for (int i = consensusParams.nSubsidyHalvingInterval; i <= nPrevHeight; i += consensusParams.nSubsidyHalvingInterval) {
         nSubsidy -= nSubsidy/14;
     }
@@ -1399,6 +1399,7 @@ void static InvalidChainFound(CBlockIndex* pindexNew)
     if (!pindexBestInvalid || pindexNew->nChainWork > pindexBestInvalid->nChainWork)
         pindexBestInvalid = pindexNew;
 
+// InvalidChainFound: invalid block=b51f472730b9becaf70058ff76382e6f4ac02e986359a2dc31fe196356b27809  height=0  log2_work=20.000022  date=2018-02-06 02:40:00
     LogPrintf("%s: invalid block=%s  height=%d  log2_work=%.8g  date=%s\n", __func__,
       pindexNew->GetBlockHash().ToString(), pindexNew->nHeight,
       log(pindexNew->nChainWork.getdouble())/log(2.0), DateTimeStrFormat("%Y-%m-%d %H:%M:%S",
@@ -3231,21 +3232,11 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
 {
     const Consensus::Params& consensusParams = Params().GetConsensus();
     int nHeight = pindexPrev->nHeight + 1;
-    // Check proof of work
-    if(Params().NetworkIDString() == CBaseChainParams::MAIN && nHeight <= 11356){
-        // architecture issues with DGW v1 and v2)
-        unsigned int nBitsNext = GetNextWorkRequired(pindexPrev, &block, consensusParams);
-        double n1 = ConvertBitsToDouble(block.nBits);
-        double n2 = ConvertBitsToDouble(nBitsNext);
 
-        if (abs(n1-n2) > n1*0.5)
-            return state.DoS(100, error("%s : incorrect proof of work (DGW pre-fork) - %f %f %f at %d", __func__, abs(n1-n2), n1, n2, nHeight),
-                            REJECT_INVALID, "bad-diffbits");
-    } else {
-        if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
-            return state.DoS(100, error("%s : incorrect proof of work at %d", __func__, nHeight),
-                            REJECT_INVALID, "bad-diffbits");
-    }
+    // Check proof of work
+    if (block.nBits != GetNextWorkRequired(pindexPrev, &block, consensusParams))
+        return state.DoS(100, error("%s : incorrect proof of work at %d", __func__, nHeight),
+                       REJECT_INVALID, "bad-diffbits");
 
     // Check timestamp against prev
     if (block.GetBlockTime() <= pindexPrev->GetMedianTimePast())
