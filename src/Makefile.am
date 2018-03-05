@@ -5,20 +5,11 @@ AM_CXXFLAGS = $(HARDENED_CXXFLAGS)
 AM_CPPFLAGS = $(HARDENED_CPPFLAGS)
 EXTRA_LIBRARIES =
 
-if EMBEDDED_UNIVALUE
-LIBUNIVALUE = univalue/libunivalue.la
+NTOKEN_CONFIG_INCLUDES=-I$(builddir)/config
+NTOKEN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
 
-$(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
-	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
-else
-LIBUNIVALUE = $(UNIVALUE_LIBS)
-endif
-
-BITCOIN_CONFIG_INCLUDES=-I$(builddir)/config
-BITCOIN_INCLUDES=-I$(builddir) -I$(builddir)/obj $(BOOST_CPPFLAGS) $(LEVELDB_CPPFLAGS) $(CRYPTO_CFLAGS) $(SSL_CFLAGS)
-
-BITCOIN_INCLUDES += -I$(srcdir)/secp256k1/include
-BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
+NTOKEN_INCLUDES += -I$(srcdir)/secp256k1/include
+NTOKEN_INCLUDES += -I$(srcdir)/univalue/include
 
 LIBBITCOIN_SERVER=libbitcoin_server.a
 LIBBITCOIN_WALLET=libbitcoin_wallet.a
@@ -28,8 +19,12 @@ LIBBITCOIN_UTIL=libbitcoin_util.a
 LIBBITCOIN_CRYPTO=crypto/libbitcoin_crypto.a
 LIBBITCOINQT=qt/libbitcoinqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
+LIBUNIVALUE=univalue/libunivalue.la
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
+	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
+
+$(LIBUNIVALUE): $(wildcard univalue/lib/*) $(wildcard univalue/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
 
 # Make is not made aware of per-object dependencies to avoid limiting building parallelization
@@ -41,16 +36,16 @@ EXTRA_LIBRARIES += \
   libbitcoin_server.a \
   libbitcoin_cli.a
 if ENABLE_WALLET
-BITCOIN_INCLUDES += $(BDB_CPPFLAGS)
+NTOKEN_INCLUDES += $(BDB_CPPFLAGS)
 EXTRA_LIBRARIES += libbitcoin_wallet.a
 endif
 if ENABLE_ZMQ
 EXTRA_LIBRARIES += libbitcoin_zmq.a
 endif
 
-if BUILD_BITCOIN_LIBS
-lib_LTLIBRARIES = libntokenconsensus.la
-LIBBITCOIN_CONSENSUS=libntokenconsensus.la
+if BUILD_NTOKEN_LIBS
+lib_LTLIBRARIES = libbitcoinconsensus.la
+LIBBITCOIN_CONSENSUS=libbitcoinconsensus.la
 else
 LIBBITCOIN_CONSENSUS=
 endif
@@ -59,18 +54,17 @@ bin_PROGRAMS =
 TESTS =
 BENCHMARKS =
 
-if BUILD_BITCOIND
+if BUILD_NTOKEND
   bin_PROGRAMS += ntokend
 endif
 
-if BUILD_BITCOIN_UTILS
+if BUILD_NTOKEN_UTILS
   bin_PROGRAMS += ntoken-cli ntoken-tx
 endif
 
 .PHONY: FORCE check-symbols check-security
-# ntoken core #
-BITCOIN_CORE_H = \
-  addrdb.h \
+# ntoken #
+NTOKEN_CORE_H = \
   activemasternode.h \
   addressindex.h \
   spentindex.h \
@@ -79,8 +73,8 @@ BITCOIN_CORE_H = \
   amount.h \
   arith_uint256.h \
   base58.h \
-  bip39.h \
   bip39_english.h \
+  bip39.h \
   bloom.h \
   cachemap.h \
   cachemultimap.h \
@@ -104,42 +98,36 @@ BITCOIN_CORE_H = \
   consensus/validation.h \
   core_io.h \
   core_memusage.h \
-  privatesend.h \
-  privatesend-client.h \
-  privatesend-server.h \
-  privatesend-util.h \
-  dsnotificationinterface.h \
-  governance.h \
-  governance-classes.h \
-  governance-exceptions.h \
-  governance-object.h \
-  governance-validators.h \
-  governance-vote.h \
-  governance-votedb.h \
-  flat-database.h \
-  hash.h \
-  hdchain.h \
-  httprpc.h \
-  httpserver.h \
-  init.h \
-  instantx.h \
-  key.h \
-  keepass.h \
-  keystore.h \
   dbwrapper.h \
-  limitedmap.h \
   masternode.h \
   masternode-payments.h \
   masternode-sync.h \
   masternodeman.h \
   masternodeconfig.h \
+  flat-database.h \
+  governance.h \
+  governance-classes.h \
+  governance-exceptions.h \
+  governance-object.h \
+  governance-vote.h \
+  governance-votedb.h \
+  hash.h \
+  hdchain.h \
+  httprpc.h \
+  httpserver.h \
+  indirectmap.h \
+  init.h \
+  instantsend.h \
+  key.h \
+  keepass.h \
+  keystore.h \
+  limitedmap.h \
+  main.h \
   memusage.h \
   merkleblock.h \
   messagesigner.h \
   miner.h \
   net.h \
-  net_processing.h \
-  netaddress.h \
   netbase.h \
   netfulfilledman.h \
   noui.h \
@@ -150,13 +138,16 @@ BITCOIN_CORE_H = \
   prevector.h \
   primitives/block.h \
   primitives/transaction.h \
+  privatesend.h \
+  psnotificationinterface.h \
+  privatesend-relay.h \
   protocol.h \
   pubkey.h \
   random.h \
   reverselock.h \
-  rpc/client.h \
-  rpc/protocol.h \
-  rpc/server.h \
+  rpcclient.h \
+  rpcprotocol.h \
+  rpcserver.h \
   scheduler.h \
   script/interpreter.h \
   script/script.h \
@@ -170,10 +161,9 @@ BITCOIN_CORE_H = \
   support/allocators/secure.h \
   support/allocators/zeroafterfree.h \
   support/cleanse.h \
-  support/pagelocker.h \
+  support/lockedpool.h \
   sync.h \
   threadsafety.h \
-  threadinterrupt.h \
   timedata.h \
   tinyformat.h \
   torcontrol.h \
@@ -186,7 +176,6 @@ BITCOIN_CORE_H = \
   utilmoneystr.h \
   utilstrencodings.h \
   utiltime.h \
-  validation.h \
   validationinterface.h \
   version.h \
   versionbits.h \
@@ -200,7 +189,6 @@ BITCOIN_CORE_H = \
   zmq/zmqnotificationinterface.h \
   zmq/zmqpublishnotifier.h
 
-
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
 	@$(top_srcdir)/share/genbuild.sh $(abs_top_builddir)/src/obj/build.h \
@@ -208,70 +196,57 @@ obj/build.h: FORCE
 libbitcoin_util_a-clientversion.$(OBJEXT): obj/build.h
 
 # server: shared between ntokend and ntoken-qt
-libbitcoin_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
+libbitcoin_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(NTOKEN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
 libbitcoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_server_a_SOURCES = \
-  activemasternode.cpp \
   addrman.cpp \
-  addrdb.cpp \
   alert.cpp \
   bloom.cpp \
   chain.cpp \
   checkpoints.cpp \
-  dsnotificationinterface.cpp \
-  httprpc.cpp \
-  httpserver.cpp \
-  init.cpp \
-  instantx.cpp \
   dbwrapper.cpp \
   governance.cpp \
   governance-classes.cpp \
   governance-object.cpp \
-  governance-validators.cpp \
   governance-vote.cpp \
   governance-votedb.cpp \
-  masternode.cpp \
-  masternode-payments.cpp \
-  masternode-sync.cpp \
-  masternodeconfig.cpp \
-  masternodeman.cpp \
+  httprpc.cpp \
+  httpserver.cpp \
+  init.cpp \
+  main.cpp \
   merkleblock.cpp \
   messagesigner.cpp \
   miner.cpp \
   net.cpp \
   netfulfilledman.cpp \
-  net_processing.cpp \
   noui.cpp \
   policy/fees.cpp \
   policy/policy.cpp \
   pow.cpp \
-  privatesend.cpp \
-  privatesend-server.cpp \
   rest.cpp \
-  rpc/blockchain.cpp \
-  rpc/masternode.cpp \
-  rpc/governance.cpp \
-  rpc/mining.cpp \
-  rpc/misc.cpp \
-  rpc/net.cpp \
-  rpc/rawtransaction.cpp \
-  rpc/server.cpp \
+  rpcblockchain.cpp \
+  rpcmasternode.cpp \
+  rpcgovernance.cpp \
+  rpcmining.cpp \
+  rpcmisc.cpp \
+  rpcnet.cpp \
+  rpcrawtransaction.cpp \
+  rpcserver.cpp \
   script/sigcache.cpp \
   sendalert.cpp \
-  spork.cpp \
   timedata.cpp \
   torcontrol.cpp \
   txdb.cpp \
   txmempool.cpp \
-  validation.cpp \
+  ui_interface.cpp \
   validationinterface.cpp \
   versionbits.cpp \
-  $(BITCOIN_CORE_H)
+  $(NTOKEN_CORE_H)
 
 if ENABLE_ZMQ
 LIBBITCOIN_ZMQ=libbitcoin_zmq.a
 
-libbitcoin_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
+libbitcoin_zmq_a_CPPFLAGS = $(NTOKEN_INCLUDES) $(ZMQ_CFLAGS)
 libbitcoin_zmq_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_zmq_a_SOURCES = \
   zmq/zmqabstractnotifier.cpp \
@@ -282,12 +257,21 @@ endif
 
 # wallet: shared between ntokend and ntoken-qt, but only linked
 # when wallet enabled
-libbitcoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libbitcoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(NTOKEN_INCLUDES)
 libbitcoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_wallet_a_SOURCES = \
+  activemasternode.cpp \
+  masternode.cpp \
+  masternode-payments.cpp \
+  masternode-sync.cpp \
+  masternodeconfig.cpp \
+  masternodeman.cpp \
+  instantsend.cpp \
   keepass.cpp \
-  privatesend-client.cpp \
-  privatesend-util.cpp \
+  policy/rbf.cpp \
+  privatesend.cpp \
+  privatesend-relay.cpp \
+  psnotificationinterface.cpp \
   wallet/crypter.cpp \
   wallet/db.cpp \
   wallet/rpcdump.cpp \
@@ -295,42 +279,43 @@ libbitcoin_wallet_a_SOURCES = \
   wallet/wallet.cpp \
   wallet/wallet_ismine.cpp \
   wallet/walletdb.cpp \
-  policy/rbf.cpp \
-  $(BITCOIN_CORE_H)
+  $(NTOKEN_CORE_H)
 
 # crypto primitives library
-crypto_libbitcoin_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_CONFIG_INCLUDES) $(PIC_FLAGS)
+crypto_libbitcoin_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(NTOKEN_CONFIG_INCLUDES) $(PIC_FLAGS)
 crypto_libbitcoin_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) $(PIC_FLAGS)
 crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/common.h \
+  crypto/argon2d/argon2.h \
+  crypto/argon2d/core.h \
+  crypto/argon2d/encoding.h \
+  crypto/argon2d/thread.h \
+  crypto/argon2d/argon2.c \
+  crypto/argon2d/core.c \
+  crypto/argon2d/encoding.c \
+  crypto/argon2d/opt.c \
+  crypto/argon2d/thread.c \
+  crypto/blake2/blake2b.c \
+  crypto/blake2/blake2.h \
+  crypto/blake2/blake2-impl.h \
+  crypto/blake2/blamka-round-opt.h \
+  crypto/blake2/blamka-round-ref.h \
   crypto/hmac_sha256.cpp \
   crypto/hmac_sha256.h \
   crypto/hmac_sha512.cpp \
   crypto/hmac_sha512.h \
   crypto/ripemd160.cpp \
-  crypto/aes_helper.c \
   crypto/ripemd160.h \
   crypto/sha1.cpp \
   crypto/sha1.h \
   crypto/sha256.cpp \
   crypto/sha256.h \
+  crypto/sha512.h \
   crypto/sha512.cpp \
   crypto/sha512.h
 
-# Lyra2z
-crypto_libbitcoin_crypto_a_SOURCES += \
-crypto/Lyra2.h \
-crypto/Lyra2.c \
-crypto/Lyra2Z.h \
-crypto/Lyra2Z.c \
-crypto/blake.c \
-crypto/sph_blake.h \
-crypto/sph_types.h \
-crypto/Sponge.c \
-crypto/Sponge.h
-
 # common: shared between ntokend, and ntoken-qt and non-server tools
-libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(NTOKEN_INCLUDES)
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_SOURCES = \
   amount.cpp \
@@ -347,7 +332,6 @@ libbitcoin_common_a_SOURCES = \
   hdchain.cpp \
   key.cpp \
   keystore.cpp \
-  netaddress.cpp \
   netbase.cpp \
   primitives/block.cpp \
   primitives/transaction.cpp \
@@ -359,49 +343,49 @@ libbitcoin_common_a_SOURCES = \
   script/script_error.cpp \
   script/sign.cpp \
   script/standard.cpp \
-  $(BITCOIN_CORE_H)
+  spork.cpp \
+  $(NTOKEN_CORE_H)
 
 # util: shared between all executables.
 # This library *must* be included to make sure that the glibc
 # backward-compatibility objects and their sanity checks are linked.
-libbitcoin_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libbitcoin_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(NTOKEN_INCLUDES)
 libbitcoin_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_util_a_SOURCES = \
-  support/pagelocker.cpp \
   chainparamsbase.cpp \
   clientversion.cpp \
   compat/glibc_sanity.cpp \
   compat/glibcxx_sanity.cpp \
   compat/strnlen.cpp \
   random.cpp \
-  rpc/protocol.cpp \
+  rpcprotocol.cpp \
   support/cleanse.cpp \
+  support/lockedpool.cpp \
   sync.cpp \
   uint256.cpp \
-  threadinterrupt.cpp \
   util.cpp \
   utilmoneystr.cpp \
   utilstrencodings.cpp \
   utiltime.cpp \
-  $(BITCOIN_CORE_H)
+  $(NTOKEN_CORE_H)
 
 if GLIBC_BACK_COMPAT
 libbitcoin_util_a_SOURCES += compat/glibc_compat.cpp
 endif
 
 # cli: shared between ntoken-cli and ntoken-qt
-libbitcoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libbitcoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(NTOKEN_INCLUDES)
 libbitcoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_cli_a_SOURCES = \
-  rpc/client.cpp \
-  $(BITCOIN_CORE_H)
+  rpcclient.cpp \
+  $(NTOKEN_CORE_H)
 
 nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
-# bitcoind binary #
+# ntokend binary #
 ntokend_SOURCES = ntokend.cpp
-ntokend_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+ntokend_CPPFLAGS = $(AM_CPPFLAGS) $(NTOKEN_INCLUDES)
 ntokend_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 ntokend_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
@@ -431,7 +415,7 @@ ntokend_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNP
 
 # ntoken-cli binary #
 ntoken_cli_SOURCES = ntoken-cli.cpp
-ntoken_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+ntoken_cli_CPPFLAGS = $(AM_CPPFLAGS) $(NTOKEN_INCLUDES) $(EVENT_CFLAGS)
 ntoken_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 ntoken_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
@@ -448,7 +432,7 @@ ntoken_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 
 # ntoken-tx binary #
 ntoken_tx_SOURCES = ntoken-tx.cpp
-ntoken_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+ntoken_tx_CPPFLAGS = $(AM_CPPFLAGS) $(NTOKEN_INCLUDES)
 ntoken_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 ntoken_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
@@ -467,9 +451,9 @@ ntoken_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
 # ntokenconsensus library #
-if BUILD_BITCOIN_LIBS
+if BUILD_NTOKEN_LIBS
 include_HEADERS = script/ntokenconsensus.h
-libntokenconsensus_la_SOURCES = \
+libbitcoinconsensus_la_SOURCES = \
   crypto/hmac_sha512.cpp \
   crypto/ripemd160.cpp \
   crypto/sha1.cpp \
@@ -485,13 +469,13 @@ libntokenconsensus_la_SOURCES = \
   utilstrencodings.cpp
 
 if GLIBC_BACK_COMPAT
-  libntokenconsensus_la_SOURCES += compat/glibc_compat.cpp
+  libbitcoinconsensus_la_SOURCES += compat/glibc_compat.cpp
 endif
 
-libntokenconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
-libntokenconsensus_la_LIBADD = $(LIBSECP256K1)
-libntokenconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
-libntokenconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoinconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
+libbitcoinconsensus_la_LIBADD = $(LIBSECP256K1)
+libbitcoinconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_NTOKEN_INTERNAL
+libbitcoinconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
 endif
 #
@@ -519,7 +503,7 @@ clean-local:
 	-$(MAKE) -C secp256k1 clean
 	-$(MAKE) -C univalue clean
 	-rm -f leveldb/*/*.gcda leveldb/*/*.gcno leveldb/helpers/memenv/*.gcda leveldb/helpers/memenv/*.gcno
-	-rm -f config.h
+	-rm -f config/ntoken-config.* config/stamp-h1
 
 .rc.o:
 	@test -f $(WINDRES)

@@ -6,9 +6,11 @@
 #ifndef BITCOIN_PRIMITIVES_BLOCK_H
 #define BITCOIN_PRIMITIVES_BLOCK_H
 
-#include "primitives/transaction.h"
+#include "hash.h"
 #include "serialize.h"
+#include "primitives/transaction.h"
 #include "uint256.h"
+#include "utilstrencodings.h"
 
 /** Nodes collect new transactions into a block, hash them into a hash tree,
  * and scan through nonce values to make the block's hash satisfy proof-of-work
@@ -61,7 +63,19 @@ public:
         return (nBits == 0);
     }
 
-    uint256 GetHash() const;
+    uint256 GetHash() const
+    {
+        return hash_Argon2d(UVOIDBEGIN(nVersion), 1);
+    }
+    
+    #ifdef __AVX2__
+    
+    uint256 GetHashWithCtx(void *Matrix) const
+    {
+		return(hash_Argon2d_ctx(UVOIDBEGIN(nVersion), Matrix, 1));
+	}
+	
+	#endif
 
     int64_t GetBlockTime() const
     {
@@ -77,7 +91,7 @@ public:
     std::vector<CTransaction> vtx;
 
     // memory only
-    mutable CTxOut txoutMasternode; // masternode payment
+    mutable CTxOut txoutMasternode; // Masternode payment
     mutable std::vector<CTxOut> voutSuperblock; // superblock payment
     mutable bool fChecked;
 

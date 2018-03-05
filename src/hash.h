@@ -1,50 +1,29 @@
-// Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2015 The Bitcoin Core developers
-// Copyright (c) 2014-2017 The Dash Core developers
-// Copyright (c) 2017-2018 The NToken developers
-// Distributed under the MIT software license, see the accompanying
+// Copyright (c) 2009-2017 Satoshi Nakamoto
+// Copyright (c) 2009-2017 The Bitcoin Developers
+// Copyright (c) 2014-2017 The Dash Core Developers
+// Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef BITCOIN_HASH_H
 #define BITCOIN_HASH_H
 
+#include "crypto/argon2d/argon2.h"
+#include "crypto/blake2/blake2.h"
 #include "crypto/ripemd160.h"
 #include "crypto/sha256.h"
+
 #include "prevector.h"
 #include "serialize.h"
 #include "uint256.h"
 #include "version.h"
 
-#include "crypto/sph_blake.h"
-#include "crypto/Lyra2Z.h"
-#include "crypto/Lyra2.h"
-
-
-
 #include <vector>
 
 typedef uint256 ChainCode;
 
-#ifdef GLOBALDEFINED
-#define GLOBAL
-#else
-#define GLOBAL extern
-#endif
-
-GLOBAL sph_blake256_context     z_blake;
-
-
-
-#define fillz() do { \
-    sph_blake256_init(&z_blake); \
-} while (0)
-
-
-#define ZBLAKE256 (memcpy(&ctx_blake, &z_blake, sizeof(z_blake)))
-
-
-
-
+static const size_t INPUT_BYTES = 80;  // Lenth of a block header in bytes. Input Length = Salt Length (salt = input)
+static const size_t OUTPUT_BYTES = 32; // Length of output needed for a 256-bit hash
+static const unsigned int DEFAULT_ARGON2_FLAG = 2; //Same as ARGON2_DEFAULT_FLAGS
 /* ----------- Bitcoin Hash ------------------------------------------------- */
 /** A hasher class for Bitcoin's 256-bit hash (double SHA-256). */
 class CHash256 {
@@ -54,9 +33,9 @@ public:
     static const size_t OUTPUT_SIZE = CSHA256::OUTPUT_SIZE;
 
     void Finalize(unsigned char hash[OUTPUT_SIZE]) {
-        unsigned char buf[sha.OUTPUT_SIZE];
+        unsigned char buf[CSHA256::OUTPUT_SIZE];
         sha.Finalize(buf);
-        sha.Reset().Write(buf, sha.OUTPUT_SIZE).Finalize(hash);
+        sha.Reset().Write(buf, CSHA256::OUTPUT_SIZE).Finalize(hash);
     }
 
     CHash256& Write(const unsigned char *data, size_t len) {
@@ -78,9 +57,9 @@ public:
     static const size_t OUTPUT_SIZE = CRIPEMD160::OUTPUT_SIZE;
 
     void Finalize(unsigned char hash[OUTPUT_SIZE]) {
-        unsigned char buf[sha.OUTPUT_SIZE];
+        unsigned char buf[CSHA256::OUTPUT_SIZE];
         sha.Finalize(buf);
-        CRIPEMD160().Write(buf, sha.OUTPUT_SIZE).Finalize(hash);
+        CRIPEMD160().Write(buf, CSHA256::OUTPUT_SIZE).Finalize(hash);
     }
 
     CHash160& Write(const unsigned char *data, size_t len) {
@@ -216,8 +195,8 @@ private:
     CHash256 ctx;
 
 public:
-    int nType;
-    int nVersion;
+    const int nType;
+    const int nVersion;
 
     CHashWriter(int nTypeIn, int nVersionIn) : nType(nTypeIn), nVersion(nVersionIn) {}
 
@@ -241,41 +220,6 @@ public:
     }
 };
 
-/** Reads data from an underlying stream, while hashing the read data. */
-template<typename Source>
-class CHashVerifier : public CHashWriter
-{
-private:
-    Source* source;
-
-public:
-    CHashVerifier(Source* source_) : CHashWriter(source_->GetType(), source_->GetVersion()), source(source_) {}
-
-    void read(char* pch, size_t nSize)
-    {
-        source->read(pch, nSize);
-        this->write(pch, nSize);
-    }
-
-    void ignore(size_t nSize)
-    {
-        char data[1024];
-        while (nSize > 0) {
-            size_t now = std::min<size_t>(nSize, 1024);
-            read(data, now);
-            nSize -= now;
-        }
-    }
-
-    template<typename T>
-    CHashVerifier<Source>& operator>>(T& obj)
-    {
-        // Unserialize from this stream
-        ::Unserialize(*this, obj, nType, nVersion);
-        return (*this);
-    }
-};
-
 /** Compute the 256-bit hash of an object's serialization. */
 template<typename T>
 uint256 SerializeHash(const T& obj, int nType=SER_GETHASH, int nVersion=PROTOCOL_VERSION)
@@ -289,21 +233,140 @@ unsigned int MurmurHash3(unsigned int nHashSeed, const std::vector<unsigned char
 
 void BIP32Hash(const ChainCode &chainCode, unsigned int nChild, unsigned char header, const unsigned char data[32], unsigned char output[64]);
 
-/** SipHash-2-4, using a uint64_t-based (rather than byte-based) interface */
-class CSipHasher
-{
-private:
-    uint64_t v[4];
-    int count;
 
-public:
-    CSipHasher(uint64_t k0, uint64_t k1);
-    CSipHasher& Write(uint64_t data);
-    uint64_t Finalize() const;
-};
+    /// Argon2i, Argon2d, and Argon2id are parametrized by:
+    /// A time cost, which defines the amount of computation realized and therefore the execution time, given in number of iterations
+    /// A memory cost, which defines the memory usage, given in kibibytes (1 kibibytes = kilobytes 1.024)
+    /// A parallelism degree, which defines the number of parallel threads
 
-uint64_t SipHashUint256(uint64_t k0, uint64_t k1, const uint256& val);
-uint64_t SipHashUint256Extra(uint64_t k0, uint64_t k1, const uint256& val, uint32_t extra);
+    /// Argon2d Phase 1 Hash parameters for the first 9 months - 12 month
+    /// Salt and password are the block header.
+    /// Output length: 32 bytes.
+    /// Input length (in the case of a block header): 80 bytes.
+    /// Salt length (same note as input length): 80 bytes.
+    /// Input: Block header
+    /// Salt: Block header (SAME AS INPUT)
+    /// Secret data: None
+    /// Secret length: 0
+    /// Associated data: None
+    /// Associated data length: 0
+    /// Memory cost: 250 kibibytes
+    /// Lanes: 4 parallel threads
+    /// Threads: 2 threads
+    /// Time Constraint: 1 iteration
+inline int Argon2d_Phase1_Hash(const void *in, void *out) {
+	argon2_context context;
+    context.out = (uint8_t *)out;
+    context.outlen = (uint32_t)OUTPUT_BYTES;
+    context.pwd = (uint8_t *)in;
+    context.pwdlen = (uint32_t)INPUT_BYTES;
+    context.salt = (uint8_t *)in; //salt = input
+    context.saltlen = (uint32_t)INPUT_BYTES;
+    context.secret = NULL;
+    context.secretlen = 0;
+    context.ad = NULL;
+    context.adlen = 0;
+    context.allocate_cbk = NULL;
+    context.free_cbk = NULL;
+    context.flags = DEFAULT_ARGON2_FLAG; // = ARGON2_DEFAULT_FLAGS
+    // main configurable Argon2 hash parameters
+    context.m_cost = 250; // Memory in KiB (~256KB)
+    context.lanes = 4;    // Degree of Parallelism
+    context.threads = 1;  // Threads
+    context.t_cost = 1;   // Iterations
 
+    return argon2_ctx(&context, Argon2_d);
+}
+
+#ifdef __AVX2__
+
+inline int Argon2d_Phase1_Hash_Ctx(const void *in, void *Matrix, void *out) {        
+    WolfArgon2dPoWHash(out, Matrix, in);
+        
+    return(0);
+}
+
+#endif
+
+    /// Argon2d Phase 2 Hash parameters for the next 5 years after phase 1
+    /// Salt and password are the block header.
+    /// Output length: 32 bytes.
+    /// Input length (in the case of a block header): 80 bytes.
+    /// Salt length (same note as input length): 80 bytes.
+    /// Input: Block header
+    /// Salt: Block header (SAME AS INPUT)
+    /// Secret data: None
+    /// Secret length: 0
+    /// Associated data: None
+    /// Associated data length: 0
+    /// Memory cost: 1000 kibibytes
+    /// Lanes: 64 parallel threads
+    /// Threads: 4 threads
+    /// Time Constraint: 8 iterations
+inline int Argon2d_Phase2_Hash(const void *in, void *out) {
+    argon2_context context;
+    context.out = (uint8_t *)out;
+    context.outlen = (uint32_t)OUTPUT_BYTES;
+    context.pwd = (uint8_t *)in;
+    context.pwdlen = (uint32_t)INPUT_BYTES;
+    context.salt = (uint8_t *)in; //salt = input
+    context.saltlen = (uint32_t)INPUT_BYTES;
+    context.secret = NULL;
+    context.secretlen = 0;
+    context.ad = NULL;
+    context.adlen = 0;
+    context.allocate_cbk = NULL;
+    context.free_cbk = NULL;
+    context.flags = DEFAULT_ARGON2_FLAG; // = ARGON2_DEFAULT_FLAGS
+    // main configurable Argon2 hash parameters
+    context.m_cost = 250; // Memory in KiB (~250KB)
+    context.lanes = 64;    // Degree of Parallelism
+    context.threads = 2;  // Threads
+    context.t_cost = 1;    // Iterations
+    
+    return argon2_ctx(&context, Argon2_d);
+}
+
+inline uint256 hash_Argon2d(const void* input, const unsigned int& hashPhase) {
+    uint256 hashResult;
+    const uint32_t MaxInt32 = std::numeric_limits<uint32_t>::max();
+    if (INPUT_BYTES > MaxInt32 || OUTPUT_BYTES > MaxInt32) {
+        return hashResult;
+    }
+    
+    if (hashPhase == 1) {
+        Argon2d_Phase1_Hash((const uint8_t*)input, (uint8_t*)&hashResult);
+    }
+    else if (hashPhase == 2) {
+        Argon2d_Phase2_Hash((const uint8_t*)input, (uint8_t*)&hashResult);
+    }
+    else {
+        Argon2d_Phase1_Hash((const uint8_t*)input, (uint8_t*)&hashResult);
+    }
+    return hashResult;
+}
+
+#ifdef __AVX2__
+
+inline uint256 hash_Argon2d_ctx(const void* input, void *Matrix, const unsigned int& hashPhase) {
+    uint256 hashResult;
+    const uint32_t MaxInt32 = std::numeric_limits<uint32_t>::max();
+    if (INPUT_BYTES > MaxInt32 || OUTPUT_BYTES > MaxInt32) {
+        return hashResult;
+    }
+    
+    if (hashPhase == 1) {
+        Argon2d_Phase1_Hash_Ctx((const uint8_t*)input, Matrix, (uint8_t*)&hashResult);
+    }
+    else if (hashPhase == 2) {
+        Argon2d_Phase2_Hash((const uint8_t*)input, (uint8_t*)&hashResult);
+    }
+    else {
+        Argon2d_Phase1_Hash((const uint8_t*)input, (uint8_t*)&hashResult);
+    }
+    return hashResult;
+}
+
+#endif
 
 #endif // BITCOIN_HASH_H
