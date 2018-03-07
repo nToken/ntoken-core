@@ -54,7 +54,7 @@ see `contrib/debian/examples/ntoken.conf`.
 All three configurations assume several paths that might need to be adjusted.
 
 Binary:              `/usr/bin/ntokend`  
-Configuration file:  `/etc/ntokencore/ntoken.conf`  
+Configuration file:  `/etc/ntoken/ntoken.conf`  
 Data directory:      `/var/lib/ntokend`  
 PID file:            `/var/run/ntokend/ntokend.pid` (OpenRC and Upstart) or `/var/lib/ntokend/ntokend.pid` (systemd)  
 Lock file:           `/var/lock/subsys/ntokend` (CentOS)  

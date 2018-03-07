@@ -19,7 +19,7 @@
 #define ARGON2_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/credits-config.h"
+#include "config/ntoken-config.h"
 #endif
 
 #include <stdint.h>

@@ -520,7 +520,7 @@ boost::filesystem::path GetDefaultDataDir()
     // Windows < Vista: C:\Documents and Settings\Username\Application Data\NTokenCore
     // Windows >= Vista: C:\Users\Username\AppData\Roaming\NTokenCore
     // Mac: ~/Library/Application Support/NTokenCore
-    // Unix: ~/.ntokencore
+    // Unix: ~/.ntoken
 #ifdef WIN32
     // Windows
     return GetSpecialFolderPath(CSIDL_APPDATA) / "NTokenCore";
@@ -536,7 +536,7 @@ boost::filesystem::path GetDefaultDataDir()
     return pathRet / "Library/Application Support/NTokenCore";
 #else
     // Unix
-    return pathRet / ".ntokencore";
+    return pathRet / ".ntoken";
 #endif
 #endif
 }
