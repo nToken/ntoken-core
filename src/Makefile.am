@@ -303,6 +303,20 @@ crypto_libbitcoin_crypto_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_CONFIG_INCLUDES) 
 crypto_libbitcoin_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) $(PIC_FLAGS)
 crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/common.h \
+  crypto/argon2d/argon2.h \
+  crypto/argon2d/core.h \
+  crypto/argon2d/encoding.h \
+  crypto/argon2d/thread.h \
+  crypto/argon2d/argon2.c \
+  crypto/argon2d/core.c \
+  crypto/argon2d/encoding.c \
+  crypto/argon2d/opt.c \
+  crypto/argon2d/thread.c \
+  crypto/blake2/blake2b.c \
+  crypto/blake2/blake2.h \
+  crypto/blake2/blake2-impl.h \
+  crypto/blake2/blamka-round-opt.h \
+  crypto/blake2/blamka-round-ref.h \
   crypto/hmac_sha256.cpp \
   crypto/hmac_sha256.h \
   crypto/hmac_sha512.cpp \
@@ -316,32 +330,6 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/sha256.h \
   crypto/sha512.cpp \
   crypto/sha512.h
-
-# x11
-crypto_libbitcoin_crypto_a_SOURCES += \
-  crypto/blake.c \
-  crypto/bmw.c \
-  crypto/cubehash.c \
-  crypto/echo.c \
-  crypto/groestl.c \
-  crypto/jh.c \
-  crypto/keccak.c \
-  crypto/luffa.c \
-  crypto/shavite.c \
-  crypto/simd.c \
-  crypto/skein.c \
-  crypto/sph_blake.h \
-  crypto/sph_bmw.h \
-  crypto/sph_cubehash.h \
-  crypto/sph_echo.h \
-  crypto/sph_groestl.h \
-  crypto/sph_jh.h \
-  crypto/sph_keccak.h \
-  crypto/sph_luffa.h \
-  crypto/sph_shavite.h \
-  crypto/sph_simd.h \
-  crypto/sph_skein.h \
-  crypto/sph_types.h
 
 # common: shared between ntokend, and ntoken-qt and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
