@@ -8,7 +8,7 @@
 2. Click the Receive tab.
 3. Fill in the form to request a payment.
     * Label: mn01
-    * Amount: 1000 (optional)
+    * Amount: 10000 (optional)
     * Click *Request payment* button
 5. Click the *Copy Address* button
 
@@ -38,9 +38,9 @@ Remember... this is local. Make sure your QT is not running.
 
 Create the `masternode.conf` file in the same directory as your `wallet.dat`.
 
-Copy the masternode private key and correspondig collateral output transaction that holds the 1000 NTE.
+Copy the masternode private key and correspondig collateral output transaction that holds the 10000 NTE.
 
-*Note: The masternode priviate key is **not** the same as a wallet private key. **Never** put your wallet private key in the masternode.conf file. That is almost equivalent to putting your 1000 NTE on the remote server and defeats the purpose of a hot/cold setup.*
+*Note: The masternode priviate key is **not** the same as a wallet private key. **Never** put your wallet private key in the masternode.conf file. That is almost equivalent to putting your 10000 NTE on the remote server and defeats the purpose of a hot/cold setup.*
 
 ### Get the collateral output
 
@@ -64,8 +64,8 @@ alias ipaddress:port masternode_private_key collateral_output collateral_output_
 Example:
 
 ```
-mn01 127.0.0.1:9999 93HaYBVUCYjEMeeH1Y4sBGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 2bcd3c84c84f87eaa86e4e56834c92927a07f9e18718810b92e0d0324456a67c 0
-mn02 127.0.0.2:9999 93WaAb3htPJEV8E9aQcN23Jt97bPex7YvWfgMDTUdWJvzmrMqey aa9f1034d973377a5e733272c3d0eced1de22555ad45d6b24abadff8087948d4 0
+mn01 127.0.0.1:9172 93HaYBVUCYjEMeeH1Y4sBGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 2bcd3c84c84f87eaa86e4e56834c92927a07f9e18718810b92e0d0324456a67c 1
+mn02 127.0.0.2:9172 93WaAb3htPJEV8E9aQcN23Jt97bPex7YvWfgMDTUdWJvzmrMqey aa9f1034d973377a5e733272c3d0eced1de22555ad45d6b24abadff8087948d4 0
 ```
 
 ## Update ntoken.conf on server
@@ -74,7 +74,7 @@ If you generated a new masternode private key, you will need to update the remot
 
 Shut down the daemon and then edit the file.
 
-```nano .ntokencore/ntoken.conf```
+```nano .ntoken/ntoken.conf```
 
 ### Edit the masternodeprivkey
 If you generated a new masternode private key, you will need to update the `masternodeprivkey` value in your remote `ntoken.conf` file.
@@ -89,7 +89,7 @@ You can confirm that remote server is on the correct block by issuing
 
 ```ntoken-cli getinfo```
 
-and comparing with the official explorer at https://explorer.ntoken.org/chain/NToken
+and comparing with the official explorer at https://explorer.ntoken.info/chain/NToken
 
 ### Local
 

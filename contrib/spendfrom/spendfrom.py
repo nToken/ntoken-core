@@ -38,7 +38,7 @@ def determine_db_dir():
         return os.path.expanduser("~/Library/Application Support/NTokenCore/")
     elif platform.system() == "Windows":
         return os.path.join(os.environ['APPDATA'], "NTokenCore")
-    return os.path.expanduser("~/.ntokencore")
+    return os.path.expanduser("~/.ntoken")
 
 def read_bitcoin_config(dbdir):
     """Read the ntoken.conf file from dbdir, returns dictionary of settings"""

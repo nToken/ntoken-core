@@ -81,7 +81,7 @@ unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const Conse
 }
 
 unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const Consensus::Params& params) {
-    /* current difficulty formula, ntoken - DarkGravity v3, written by Evan Duffield - evan@ntoken.org */
+    /* current difficulty formula, ntoken - DarkGravity v3, written by Evan Duffield - evan@dash.io */
     const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
     int64_t nPastBlocks = 24;
 
@@ -128,45 +128,6 @@ unsigned int static DarkGravityWave(const CBlockIndex* pindexLast, const Consens
     }
 
     return bnNew.GetCompact();
-}
-
-unsigned int GetNextWorkRequiredBTC(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
-{
-    unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
-
-    // Genesis block
-    if (pindexLast == NULL)
-        return nProofOfWorkLimit;
-
-    // Only change once per interval
-    if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
-    {
-        if (params.fPowAllowMinDifficultyBlocks)
-        {
-            // Special difficulty rule for testnet:
-            // If the new block's timestamp is more than 2* 2.5 minutes
-            // then allow mining of a min-difficulty block.
-            if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2)
-                return nProofOfWorkLimit;
-            else
-            {
-                // Return the last non-special-min-difficulty-rules-block
-                const CBlockIndex* pindex = pindexLast;
-                while (pindex->pprev && pindex->nHeight % params.DifficultyAdjustmentInterval() != 0 && pindex->nBits == nProofOfWorkLimit)
-                    pindex = pindex->pprev;
-                return pindex->nBits;
-            }
-        }
-        return pindexLast->nBits;
-    }
-
-    // Go back by what we want to be 1 day worth of blocks
-    int nHeightFirst = pindexLast->nHeight - (params.DifficultyAdjustmentInterval()-1);
-    assert(nHeightFirst >= 0);
-    const CBlockIndex* pindexFirst = pindexLast->GetAncestor(nHeightFirst);
-    assert(pindexFirst);
-
-   return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
 }
 
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)

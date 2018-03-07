@@ -353,33 +353,6 @@ public:
 
         genesis = CreateGenesisBlock(1517210033, 4097359, 0x1e0ffff0, 1, 500 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-/*
-		 printf("Searching for genesis block...\n");
-                           arith_uint256 hashTarget = arith_uint256().SetCompact(genesis.nBits);
-                           uint256 thash;
-
-                           while (true)
-                           {
-                               thash = genesis.GetHash();
-                               if (UintToArith256(thash) <= hashTarget)
-                                   break;
-                               if ((genesis.nNonce & 0xFFF) == 0)
-                               {
-                                   printf("nonce %08X: hash = %s (target = %s)\n", genesis.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
-                               }
-                               ++genesis.nNonce;
-                               if (genesis.nNonce == 0)
-                               {
-                                   printf("NONCE WRAPPED, incrementing time\n");
-                                   ++genesis.nTime;
-                               }
-                           }
-                           printf("genesis.nTime = %u \n", genesis.nTime);
-                           printf("genesis.nNonce = %u \n", genesis.nNonce);
-                           printf("genesis.nVersion = %u \n", genesis.nVersion);
-                           printf("genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str()); 
-                           printf("genesis.hashMerkleRoot = %s \n", genesis.hashMerkleRoot.ToString().c_str());
-*/
         assert(consensus.hashGenesisBlock == uint256S("0x000003a734823f16f4d3c468b1681abcd2967b0134a985accca887b711d26f90"));
         assert(genesis.hashMerkleRoot == uint256S("0x47c1de953d39a1b8d9c271329cdd8c76f4318ba8d978e1a8740e34d36c5e1fc3"));
 
