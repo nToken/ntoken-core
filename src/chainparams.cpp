@@ -85,14 +85,14 @@ public:
         consensus.nMajorityRejectBlockOutdated = 950;
         consensus.nMajorityWindow = 1000;
         consensus.BIP34Height = 1;
-        consensus.BIP34Hash = uint256S("0x00");
+        consensus.BIP34Hash = uint256S("0x00000be9378d95d2f0453b232f67a40f53a862dbb2de036202aab037ce007d5b");
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 24 * 60 * 60; // NToken: 1 day
         consensus.nPowTargetSpacing = 120; // NToken: 2.0 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2020
-        consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nRuleChangeActivationThreshold = 684; // 95%
+        consensus.nMinerConfirmationWindow = 720; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
@@ -169,11 +169,12 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            (  1, uint256S("0x00")),
-            1517210030, // * UNIX timestamp of last checkpoint block
-            3701128,    // * total number of transactions between genesis and last checkpoint
+            (  1, uint256S("0x00000be9378d95d2f0453b232f67a40f53a862dbb2de036202aab037ce007d5b"))
+            (  645, uint256S("0x000006c3a3f44a070ff5b1bd1523461d845affe000152d200f35340123f599a8")),
+            1520498015, // * UNIX timestamp of last checkpoint block
+            646,    // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
-            5000        // * estimated number of transactions per day after checkpoint
+            600        // * estimated number of transactions per day after checkpoint
         };
     }
 };
