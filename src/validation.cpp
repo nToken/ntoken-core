@@ -1233,24 +1233,18 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
     double dDiff;
     CAmount nSubsidyBase;
 
-    if (nPrevHeight <= 4500 && Params().NetworkIDString() == CBaseChainParams::MAIN) {
-        /* a bug which caused diff to not be correctly calculated */
-        dDiff = (double)0x0000ffff / (double)(nPrevBits & 0x00ffffff);
-    } else {
-        dDiff = ConvertBitsToDouble(nPrevBits);
-    }
-
+    /*
     if (nPrevHeight < 4465) {
         // Early ages...
         // 1111/((x+1)^2)
         nSubsidyBase = (11111.0 / (pow((dDiff+1.0),2.0)));
         if(nSubsidyBase > 5000) nSubsidyBase = 5000;
         else if(nSubsidyBase < 1) nSubsidyBase = 1;
-    } else if (nPrevHeight < 16000 || (dDiff <= 75 && nPrevHeight < 20000)) {
+    } else if (nPrevHeight < 6000 || (dDiff <= 75 && nPrevHeight < 10000)) {
         // CPU mining era
         // 11111/(((x+51)/6)^2)
         nSubsidyBase = (111111.0 / (pow((dDiff+51.0)/6.0,2.0)));
-        if(nSubsidyBase > 5000) nSubsidyBase = 5000;
+        if(nSubsidyBase > 500) nSubsidyBase = 500;
         else if(nSubsidyBase < 25) nSubsidyBase = 250;
     } else {
         // GPU/ASIC mining era
@@ -1259,6 +1253,7 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
         if(nSubsidyBase > 250) nSubsidyBase = 250;
         else if(nSubsidyBase < 5) nSubsidyBase = 5;
     }
+    */
 
     // LogPrintf("height %u diff %4.2f reward %d\n", nPrevHeight, dDiff, nSubsidyBase);
     CAmount nSubsidy = nSubsidyBase * COIN;

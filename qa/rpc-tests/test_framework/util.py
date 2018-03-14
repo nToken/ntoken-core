@@ -81,14 +81,14 @@ def get_rpc_proxy(url, node_number, timeout=None):
 
     return coverage.AuthServiceProxyWrapper(proxy, coverage_logfile)
 
-def get_mnsync_status(node):
-    result = node.mnsync("status")
+def get_nodesync_status(node):
+    result = node.nodesync("status")
     return result['IsSynced']
 
 def wait_to_sync(node):
     synced = False
     while not synced:
-        synced = get_mnsync_status(node)
+        synced = get_nodesync_status(node)
         time.sleep(0.5)
 
 def p2p_port(n):

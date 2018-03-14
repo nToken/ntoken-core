@@ -142,11 +142,11 @@ UniValue debug(const UniValue& params, bool fHelp)
     return "Debug mode: " + (fDebug ? strMode : "off");
 }
 
-UniValue mnsync(const UniValue& params, bool fHelp)
+UniValue nodesync(const UniValue& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
         throw runtime_error(
-            "mnsync [status|next|reset]\n"
+            "nodesync [status|next|reset]\n"
             "Returns the sync status, updates to the next step or resets it entirely.\n"
         );
 
