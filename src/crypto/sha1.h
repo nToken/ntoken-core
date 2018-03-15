@@ -1,9 +1,9 @@
-// Copyright (c) 2014-2016 The Bitcoin Core developers
+// Copyright (c) 2014 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_CRYPTO_SHA1_H
-#define BITCOIN_CRYPTO_SHA1_H
+#ifndef NTOKEN_CRYPTO_SHA1_H
+#define NTOKEN_CRYPTO_SHA1_H
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -14,7 +14,7 @@ class CSHA1
 private:
     uint32_t s[5];
     unsigned char buf[64];
-    uint64_t bytes;
+    size_t bytes;
 
 public:
     static const size_t OUTPUT_SIZE = 20;
@@ -25,4 +25,4 @@ public:
     CSHA1& Reset();
 };
 
-#endif // BITCOIN_CRYPTO_SHA1_H
+#endif // NTOKEN_CRYPTO_SHA1_H

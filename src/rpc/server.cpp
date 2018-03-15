@@ -352,7 +352,7 @@ static const CRPCCommand vRPCCommands[] =
     { "ntoken",               "getgovernanceinfo",      &getgovernanceinfo,      true  },
     { "ntoken",               "getsuperblockbudget",    &getsuperblockbudget,    true  },
     { "ntoken",               "voteraw",                &voteraw,                true  },
-    { "ntoken",               "mnsync",                 &mnsync,                 true  },
+    { "ntoken",               "nodesync",               &nodesync,               true  },
     { "ntoken",               "spork",                  &spork,                  true  },
     { "ntoken",               "getpoolinfo",            &getpoolinfo,            true  },
     { "ntoken",               "sentinelping",           &sentinelping,           true  },

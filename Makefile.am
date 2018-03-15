@@ -6,7 +6,7 @@ GZIP_ENV="-9n"
 
 if BUILD_BITCOIN_LIBS
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libntokenconsensus.pc
+pkgconfig_DATA = ntokenconsensus.pc
 endif
 
 BITCOIND_BIN=$(top_builddir)/src/ntokend$(EXEEXT)

@@ -13,7 +13,7 @@ can be found in the contrib/init folder.
 1. Service User
 ---------------------------------
 
-All three Linux startup configurations assume the existence of a "ntokencore" user
+All three Linux startup configurations assume the existence of a "ntoken" user
 and group.  They must be created before attempting to use these scripts.
 The OS X configuration assumes ntokend will be set up for the current user.
 
@@ -54,15 +54,15 @@ see `contrib/debian/examples/ntoken.conf`.
 All three configurations assume several paths that might need to be adjusted.
 
 Binary:              `/usr/bin/ntokend`  
-Configuration file:  `/etc/ntokencore/ntoken.conf`  
+Configuration file:  `/etc/ntoken/ntoken.conf`  
 Data directory:      `/var/lib/ntokend`  
 PID file:            `/var/run/ntokend/ntokend.pid` (OpenRC and Upstart) or `/var/lib/ntokend/ntokend.pid` (systemd)  
 Lock file:           `/var/lock/subsys/ntokend` (CentOS)  
 
 The configuration file, PID directory (if applicable) and data directory
-should all be owned by the ntokencore user and group.  It is advised for security
+should all be owned by the ntoken user and group.  It is advised for security
 reasons to make the configuration file and data directory only readable by the
-ntokencore user and group.  Access to ntoken-cli and other ntokend rpc clients
+ntoken user and group.  Access to ntoken-cli and other ntokend rpc clients
 can then be controlled by group membership.
 
 3b) Mac OS X
@@ -116,7 +116,7 @@ This Launch Agent will cause ntokend to start whenever the user logs in.
 
 NOTE: This approach is intended for those wanting to run ntokend as the current user.
 You will need to modify org.ntoken.ntokend.plist if you intend to use it as a
-Launch Daemon with a dedicated ntokencore user.
+Launch Daemon with a dedicated ntoken user.
 
 5. Auto-respawn
 -----------------------------------
