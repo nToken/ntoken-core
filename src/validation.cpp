@@ -1231,8 +1231,8 @@ NOTE:   unlike bitcoin we are using PREVIOUS block height here,
 CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly)
 {
     double dDiff;
-    CAmount nSubsidyBase;
     CAmount nSubsidy;
+    //CAmount nSubsidyBase;
 
     dDiff = ConvertBitsToDouble(nPrevBits);
 
@@ -1264,7 +1264,7 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
     if (halvings >= 10)
         return 0;
 
-    nSubsidy = 500 * COIN;
+    nSubsidy = 128 * COIN;
     nSubsidy >>= halvings;
     return nSubsidy;
 }
@@ -1273,14 +1273,13 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue)
 {
     CAmount ret = blockValue/5; // start at 20%
 
-    int nMNPIBlock = Params().GetConsensus().nMasternodePaymentsIncreaseBlock;
-    int nMNPIPeriod = Params().GetConsensus().nMasternodePaymentsIncreasePeriod;
+    int nMNPIBlock = Params().GetConsensus().nMasternodeIncreaseBlock;
 
                                                                       // mainnet: deprecated
     if(nHeight > nMNPIBlock)                  ret += blockValue / 20; // 158000 - 25.0% - 2018-04-10
-    if(nHeight > nMNPIBlock+(nMNPIPeriod* 1)) ret += blockValue / 20; // 175280 - 30.0% - 2018-05-05
-    if(nHeight > nMNPIBlock+(nMNPIPeriod* 2)) ret += blockValue / 20; // 192560 - 35.0% - 2018-06-26
-    if(nHeight > nMNPIBlock+(nMNPIPeriod* 3)) ret += blockValue / 40; // 209840 - 37.5% - 2018-07-16
+    if(nHeight > nMNPIBlock+(nMNPIBlock* 1)) ret += blockValue / 20; // 175280 - 30.0% - 2018-05-05
+    if(nHeight > nMNPIBlock+(nMNPIBlock* 2)) ret += blockValue / 20; // 192560 - 35.0% - 2018-06-26
+    if(nHeight > nMNPIBlock+(nMNPIBlock* 3)) ret += blockValue / 40; // 209840 - 37.5% - 2018-07-16
 
     return ret;
 }
