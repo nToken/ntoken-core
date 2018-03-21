@@ -63,20 +63,8 @@ public:
         return (nBits == 0);
     }
 
-    uint256 GetHash() const
-    {
-        return hash_Argon2d(UVOIDBEGIN(nVersion), 1);
-    }
+    uint256 GetHash() const;
     
-    #ifdef __AVX2__
-    
-    uint256 GetHashWithCtx(void *Matrix) const
-    {
-		return(hash_Argon2d_ctx(UVOIDBEGIN(nVersion), Matrix, 1));
-	}
-	
-	#endif
-
     int64_t GetBlockTime() const
     {
         return (int64_t)nTime;

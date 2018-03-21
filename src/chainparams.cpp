@@ -54,38 +54,29 @@ static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits
 /**
  * Main network
  */
-/**
- * What makes a good checkpoint block?
- * + Is surrounded by blocks with reasonable timestamps
- *   (no blocks before with a timestamp after, none after with
- *    timestamp before)
- * + Contains no strange transactions
- */
-
 
 class CMainParams : public CChainParams {
 public:
     CMainParams() {
         strNetworkID = "main";
         consensus.nSubsidyHalvingInterval = 525600; // Note: actual number of blocks every two years
-        consensus.nMasternodePaymentsStartBlock = 15; // not true, but it's ok as long as it's less then nMasternodePaymentsIncreaseBlock
-        consensus.nMasternodePaymentsIncreaseBlock = 158000; // actual historical value
-        consensus.nMasternodePaymentsIncreasePeriod = 576*30; // 17280 - actual historical value
+        consensus.nMasternodePaymentsStartBlock = 576; // not true, but it's ok as long as it's less then nMasternodeIncreaseBlock
+        consensus.nMasternodeIncreaseBlock = 43200; // two months 
         consensus.nInstantSendKeepLock = 24;
-        consensus.nBudgetPaymentsStartBlock = 21000000; // actual historical value
-        consensus.nBudgetPaymentsCycleBlocks = 16616; // ~(60*24*30)/2.6, actual number of blocks per month is 200700 / 12 = 16725
+        consensus.nBudgetPaymentsStartBlock = 21600;
+        consensus.nBudgetPaymentsCycleBlocks = 21600;
         consensus.nBudgetPaymentsWindowBlocks = 100;
         consensus.nBudgetProposalEstablishingTime = 60*60*24;
-        consensus.nSuperblockStartBlock = 21000000; // The block at which 1.4 goes live (end of final 2.0 budget cycle)
-        consensus.nSuperblockCycle = 16616; // ~(60*24*30)/2.6, actual number of blocks per month is 200700 / 12 = 16725
+        consensus.nSuperblockStartBlock = 1576; // The block at which 1.1.6 goes live
+        consensus.nSuperblockCycle = 21600;
         consensus.nGovernanceMinQuorum = 10;
         consensus.nGovernanceFilterElements = 20000;
         consensus.nMasternodeMinimumConfirmations = 15;
         consensus.nMajorityEnforceBlockUpgrade = 750;
         consensus.nMajorityRejectBlockOutdated = 950;
         consensus.nMajorityWindow = 1000;
-        consensus.BIP34Height = 1;
-        consensus.BIP34Hash = uint256S("0x00");
+        consensus.BIP34Height = 0;
+        consensus.BIP34Hash = uint256S("0x00000b720c7944a2446d30dabd344fa4596787f728da752b2a36f6c01ec867fe");
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 24 * 60 * 60; // NToken: 1 day
         consensus.nPowTargetSpacing = 120; // NToken: 2.0 minutes
@@ -120,21 +111,21 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        pchMessageStart[0] = 0xbf;
-        pchMessageStart[1] = 0x0c;
-        pchMessageStart[2] = 0x6b;
-        pchMessageStart[3] = 0xbd;
+        pchMessageStart[0] = 0xab;
+        pchMessageStart[1] = 0xcd;
+        pchMessageStart[2] = 0x68;
+        pchMessageStart[3] = 0xef;
         vAlertPubKey = ParseHex("04d8a8494a2efc6eb74a32c166a9ba5f72853e84a7cdffbad026f41aaac5f63843feb1efb3c20ab14074978ce2a46ec00f8dbfa129c93ab2a3125d0a1e46586bde");
         nDefaultPort = 9172;
         nMaxTipAge = 6 * 60 * 60; // ~144 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
         nDelayGetHeadersTime = 24 * 60 * 60;
         nPruneAfterHeight = 40000;
 
-        genesis = CreateGenesisBlock(1520394000, 22563136, 0x1e0ffff0, 1, 500 * COIN);
+        genesis = CreateGenesisBlock(1521206386, 23511135, 0x1e0ffff0, 1, 128 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
 
-        assert(consensus.hashGenesisBlock == uint256S("0x00000d64abf27d375a3bbd63c26602e000c39860b43af8a7c23447360391b9c9"));
-        assert(genesis.hashMerkleRoot == uint256S("0x47c1de953d39a1b8d9c271329cdd8c76f4318ba8d978e1a8740e34d36c5e1fc3"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000b720c7944a2446d30dabd344fa4596787f728da752b2a36f6c01ec867fe"));
+        assert(genesis.hashMerkleRoot == uint256S("0xc3fa9f2242e968d499c4192d93ea1a9b0cb7fbc85c998e00ca8cf27f7940fc04"));
 
         vSeeds.push_back(CDNSSeedData("s1", "seeder1.ntoken.net"));
         vSeeds.push_back(CDNSSeedData("s2", "seeder2.ntoken.net"));
@@ -187,9 +178,8 @@ public:
     CTestNetParams() {
         strNetworkID = "test";
         consensus.nSubsidyHalvingInterval = 525600;
-        consensus.nMasternodePaymentsStartBlock = 4010; // not true, but it's ok as long as it's less then nMasternodePaymentsIncreaseBlock
-        consensus.nMasternodePaymentsIncreaseBlock = 4030;
-        consensus.nMasternodePaymentsIncreasePeriod = 10;
+        consensus.nMasternodePaymentsStartBlock = 4010; // not true, but it's ok as long as it's less then nMasternodeIncreaseBlock
+        consensus.nMasternodeIncreaseBlock = 360;
         consensus.nInstantSendKeepLock = 6;
         consensus.nBudgetPaymentsStartBlock = 4100;
         consensus.nBudgetPaymentsCycleBlocks = 50;
@@ -203,8 +193,8 @@ public:
         consensus.nMajorityEnforceBlockUpgrade = 51;
         consensus.nMajorityRejectBlockOutdated = 75;
         consensus.nMajorityWindow = 100;
-        consensus.BIP34Height = 1;
-        consensus.BIP34Hash = uint256S("0x00");
+        consensus.BIP34Height = 0;
+        consensus.BIP34Hash = uint256S("0x00000770e52b28ec0c243e1215bcc453923ac245cbbe4704d59a047629038155");
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 24 * 60 * 60; // NToken: 1 day
         consensus.nPowTargetSpacing = 2 * 60; // NToken: 2.0 minutes
@@ -244,10 +234,10 @@ public:
         nDelayGetHeadersTime = 24 * 60 * 60;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1520394508, 1109247, 0x1e0ffff0, 1, 500 * COIN);
+        genesis = CreateGenesisBlock(1520394508, 1216762, 0x1e0ffff0, 1, 128 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x00000f296d7225a3a327bd636113f96e807fbcf63a088fa9e24f6ad1292c2111"));
-        assert(genesis.hashMerkleRoot == uint256S("0x47c1de953d39a1b8d9c271329cdd8c76f4318ba8d978e1a8740e34d36c5e1fc3"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000770e52b28ec0c243e1215bcc453923ac245cbbe4704d59a047629038155"));
+        assert(genesis.hashMerkleRoot == uint256S("0xc3fa9f2242e968d499c4192d93ea1a9b0cb7fbc85c998e00ca8cf27f7940fc04"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -302,8 +292,7 @@ public:
         strNetworkID = "regtest";
         consensus.nSubsidyHalvingInterval = 150;
         consensus.nMasternodePaymentsStartBlock = 240;
-        consensus.nMasternodePaymentsIncreaseBlock = 350;
-        consensus.nMasternodePaymentsIncreasePeriod = 10;
+        consensus.nMasternodeIncreaseBlock = 60;
         consensus.nInstantSendKeepLock = 6;
         consensus.nBudgetPaymentsStartBlock = 1000;
         consensus.nBudgetPaymentsCycleBlocks = 50;
@@ -351,10 +340,10 @@ public:
         nDefaultPort = 19272;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1517210033, 4097359, 0x1e0ffff0, 1, 500 * COIN);
+        genesis = CreateGenesisBlock(1517210033, 5709008, 0x1e0ffff0, 1, 128 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x000003a734823f16f4d3c468b1681abcd2967b0134a985accca887b711d26f90"));
-        assert(genesis.hashMerkleRoot == uint256S("0x47c1de953d39a1b8d9c271329cdd8c76f4318ba8d978e1a8740e34d36c5e1fc3"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000e20c3b3fca5c011b168262da73346f92e275c6f0a5636288d2b3d2eb41b"));
+        assert(genesis.hashMerkleRoot == uint256S("0xc3fa9f2242e968d499c4192d93ea1a9b0cb7fbc85c998e00ca8cf27f7940fc04"));
 
         vFixedSeeds.clear(); //! Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();  //! Regtest mode doesn't have any DNS seeds.
