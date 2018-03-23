@@ -1232,7 +1232,6 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
 {
     double dDiff;
     CAmount nSubsidy;
-    //CAmount nSubsidyBase;
 
     dDiff = ConvertBitsToDouble(nPrevBits);
 
@@ -1258,6 +1257,12 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
     CAmount nSubsidy = nSubsidyBase * COIN;
 
     */
+   
+    if (nPrevHeight == 4578) {
+    	CAmount nSubsidyBase = 1972000;
+	nSubsidy = nSubsidyBase * COIN;
+	return nSubsidy;
+    }
 
     int halvings = nPrevHeight / Params().GetConsensus().nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
