@@ -1230,39 +1230,10 @@ NOTE:   unlike bitcoin we are using PREVIOUS block height here,
 */
 CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly)
 {
-    double dDiff;
+    //double dDiff;
     CAmount nSubsidy;
 
-    dDiff = ConvertBitsToDouble(nPrevBits);
-
-    /*
-    if (nPrevHeight < 4465) {
-        // Early ages...
-        // 1111/((x+1)^2)
-        nSubsidyBase = (11111.0 / (pow((dDiff+1.0),2.0)));
-        if(nSubsidyBase > 5000) nSubsidyBase = 5000;
-        else if(nSubsidyBase < 1) nSubsidyBase = 1;
-    } else if (nPrevHeight < 7500 || (dDiff <= 75 && nPrevHeight < 10000)) {
-        // mining era
-        nSubsidyBase = (11111.0 / (pow((dDiff+51.0)/6.0,2.0)));
-        if(nSubsidyBase > 500) nSubsidyBase = 500;
-        else if(nSubsidyBase < 250) nSubsidyBase = 250;
-    } else {
-        nSubsidyBase = (2222222.0 / (pow((dDiff+2600.0)/9.0,2.0)));
-        if(nSubsidyBase > 250) nSubsidyBase = 250;
-        else if(nSubsidyBase < 5) nSubsidyBase = 5;
-    }
-
-    // LogPrintf("height %u diff %4.2f reward %d\n", nPrevHeight, dDiff, nSubsidyBase);
-    CAmount nSubsidy = nSubsidyBase * COIN;
-
-    */
-   
-    if (nPrevHeight == 4520) {
-    	CAmount nSubsidyBase = 1972000;
-	nSubsidy = nSubsidyBase * COIN;
-	return nSubsidy;
-    }
+    //dDiff = ConvertBitsToDouble(nPrevBits);
 
     int halvings = nPrevHeight / Params().GetConsensus().nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
@@ -1280,11 +1251,13 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue)
 
     int nMNPIBlock = Params().GetConsensus().nMasternodeIncreaseBlock;
 
-                                                                      // mainnet: deprecated
-    if(nHeight > nMNPIBlock)                  ret += blockValue / 20; // 158000 - 25.0% - 2018-04-10
-    if(nHeight > nMNPIBlock+(nMNPIBlock* 1)) ret += blockValue / 20; // 175280 - 30.0% - 2018-05-05
-    if(nHeight > nMNPIBlock+(nMNPIBlock* 2)) ret += blockValue / 20; // 192560 - 35.0% - 2018-06-26
-    if(nHeight > nMNPIBlock+(nMNPIBlock* 3)) ret += blockValue / 40; // 209840 - 37.5% - 2018-07-16
+                                                                      // mainnet:
+    if(nHeight > nMNPIBlock)                  ret += blockValue / 20; //  43200 - 25.0% - 2018-05-17
+    if(nHeight > nMNPIBlock+(nMNPIBlock* 2))  ret += blockValue / 20; // 129600 - 30.0% - 2018-09-17
+    if(nHeight > nMNPIBlock+(nMNPIBlock* 4))  ret += blockValue / 20; // 216000 - 35.0% - 2019-01-17
+    if(nHeight > nMNPIBlock+(nMNPIBlock* 6))  ret += blockValue / 20; // 302400 - 40.0% - 2019-05-15
+    if(nHeight > nMNPIBlock+(nMNPIBlock* 8))  ret += blockValue / 20; // 388800 - 45.0% - 2019-10-16
+    if(nHeight > nMNPIBlock+(nMNPIBlock* 10)) ret += blockValue / 20; // 475200 - 50.0% - 2020-01-16
 
     return ret;
 }
