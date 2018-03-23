@@ -63,8 +63,8 @@ public:
         consensus.nMasternodePaymentsStartBlock = 576; // not true, but it's ok as long as it's less then nMasternodeIncreaseBlock
         consensus.nMasternodeIncreaseBlock = 43200; // two months 
         consensus.nInstantSendKeepLock = 24;
-        consensus.nBudgetPaymentsStartBlock = 21600;
-        consensus.nBudgetPaymentsCycleBlocks = 21600;
+        consensus.nBudgetPaymentsStartBlock = 5600;
+        consensus.nBudgetPaymentsCycleBlocks = 5600;
         consensus.nBudgetPaymentsWindowBlocks = 100;
         consensus.nBudgetProposalEstablishingTime = 60*60*24;
         consensus.nSuperblockStartBlock = 1576; // The block at which 1.1.6 goes live
