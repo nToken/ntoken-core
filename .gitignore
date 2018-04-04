@@ -125,6 +125,7 @@ share/BitcoindComparisonTool.jar
 /doc/doxygen/
 
 ntokenconsensus.pc
+libntokenconsensus.pc
 src/qt/ntoken-qt.bash
 qa/pull-tester/tests-config.sh
 
