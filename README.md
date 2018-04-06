@@ -1,8 +1,6 @@
 NToken Core staging tree
 ===============================
 
-`master:` [![Build Status](https://travis-ci.org/ntoken/ntoken.svg?branch=master)](https://travis-ci.org/ntoken/ntoken-core) `develop:` [![Build Status](https://travis-ci.org/ntoken/ntoken.svg?branch=develop)](https://travis-ci.org/ntoken/ntoken/branches)
-
 https://www.ntoken.net
 
 
